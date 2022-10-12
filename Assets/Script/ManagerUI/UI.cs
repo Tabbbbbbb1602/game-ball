@@ -30,6 +30,11 @@ public class UI : MonoBehaviour
         inputs = new TouchInput();
     }
 
+    private void Start()
+    {
+        //victoryGame();
+    }
+
     private void OnEnable()
     {
         inputs.Enable();
@@ -54,7 +59,6 @@ public class UI : MonoBehaviour
     public void showShop()
     {
         SceneManager.LoadScene("Scenes/ShopMain");
-        Debug.Log("show shop");
     }
 
     public void showSetting()

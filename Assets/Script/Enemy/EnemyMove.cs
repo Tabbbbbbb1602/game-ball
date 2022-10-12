@@ -71,15 +71,20 @@ public class EnemyMove : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+
+        if(collision.gameObject.tag == "Hammer")
+        {
+            //thuc hien gi do
+        }
         if (collision.gameObject.tag == "Cube")
         {
             m_animator.SetBool("isRunning", false);
             Destroy(collision.gameObject);
             gameObject.GetComponent<BoxCollider>().isTrigger = true;
             haveBall = true;
+            spawnBall();
+            StartCoroutine(ThrowEnemy(2.0f));
         }
-        spawnBall();
-        StartCoroutine(ThrowEnemy(2.0f));
     }
 
     void spawnBall()

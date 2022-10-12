@@ -18,7 +18,6 @@ public class SpawnBoom : MonoBehaviour
     private void Update()
     {
         countdown -= Time.deltaTime;
-        Debug.Log(countdown);
         if (countdown <= 0)
         {
             SpawnBooms();

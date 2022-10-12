@@ -19,6 +19,7 @@ public class PlayerMove : MonoBehaviour
     public Transform PosBall;
     public GameObject Ball;
     private GameObject copyBall;
+    public GameObject Hammer;
 
     private bool haveBall;
     private Vector3 direction;
@@ -32,14 +33,17 @@ public class PlayerMove : MonoBehaviour
 
     public GameObject countObstacleEnemy;
 
-    public GameObject winGame;
-    public GameObject gameLoad;
+    /*public GameObject winGame;
+    public GameObject gameLoad;*/
 
     public GameObject partialVictory;
     private float time;
 
     public bool isVictory;
 
+    private int count = 0;
+
+    private GameObject ballTohammer;
     private void Start()
     {
         copyBall = Instantiate(Ball, Vector3.zero + new Vector3(1.0f, 1.0f, -30.0f), Quaternion.identity);
@@ -79,7 +83,7 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
         {
             GameObject gameObjCube = GameObject.Find("Ball(Clone)");
             Destroy(gameObjCube);
@@ -126,22 +130,59 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Cube")
+       /* if (collision.gameObject.tag == "Cube")
         {
             m_animator.SetBool("isRunning", false);
             Destroy(collision.gameObject);
             haveBall = true;
         }
-        spawnBall();
+        spawnBall();*/
+
+        if (collision.gameObject.tag == "Cube")
+        {
+            if(collision.gameObject.GetComponent<ColliderBall>().tag == "Player")
+            {
+                count += 1;
+                if(count == 2)
+                {
+                    ballTohammer = Hammer;
+                    count = 0;
+                }
+                else
+                {
+                    ballTohammer = Ball;
+                }
+            }
+            else
+            {
+                //neu cham khac enemy thi reset xuong 1
+                count = 1;
+            }
+            m_animator.SetBool("isRunning", false);
+            Destroy(collision.gameObject);
+            haveBall = true;
+            spawnBall();
+        }
+
+        if(collision.gameObject.tag == "Hammer")
+        {
+            ballTohammer = Ball;
+            m_animator.SetBool("isRunning", false);
+            Destroy(collision.gameObject);
+            haveBall = true;
+            spawnBall();
+        }
     }
 
     void spawnBall()
     {
-        copyBall = Instantiate(Ball, gameObject.transform.position + new Vector3(1.0f, 1.5f, 1.0f), Quaternion.identity);
+        copyBall = Instantiate(ballTohammer, gameObject.transform.position + new Vector3(1.0f, 1.5f, 1.0f), Quaternion.identity);
         copyBall.transform.GetComponent<ColliderBall>().tag = "Player";
         copyBall.GetComponent<Renderer>().material.SetColor("_Color", Color.red);   
         copyBall.GetComponent<Rigidbody>().isKinematic = true;
     }
+
+
 
     void Throw()
     {

@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class UIManager : Singleton<UIManager>
 {
-    public UnityEvent OnVictory;
-    public UnityEvent OnLose;
-    public UnityEvent OnChangeTextCoins;
+    public UnityEvent OnVictory = new UnityEvent();
+    public UnityEvent OnLose = new UnityEvent();
+    public UnityEvent OnChangeTextCoins = new UnityEvent();
 
     // Start is called before the first frame update
 
