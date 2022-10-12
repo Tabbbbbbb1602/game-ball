@@ -7,42 +7,58 @@ using UnityEngine;
 public class Boom : MonoBehaviour
 {
     public float delay = 3.0f;
-    public GameObject BoomCollider;
-    public GameObject BoomTrigger;
     public GameObject effect;
+    public GameObject boom;
 
-    float countdown;
+   /* float countdown;
 
     private void Start()
     {
         countdown = delay;
-        BoomTrigger.SetActive(false);
-        //BoomCollider.SetActive(false);
     }
 
-   
-
-    void SpawnBoom()
+    private void Update()
     {
-        BoomCollider.SetActive(true);
+        countdown -= Time.deltaTime;
+        if (countdown <= 0)
+        {
+            SpawnBooms();
+        }
+        Debug.Log(countdown);
     }
+
+    void SpawnBooms()
+    {
+        Debug.Log("show");
+        boom.SetActive(true);
+    }*/
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Cube")
+        if (collision.gameObject.tag == "Cube" || collision.gameObject.tag == "Hammer")
         {
-            BoomCollider.SetActive(false);
-            BoomTrigger.SetActive(true);
+            gameObject.GetComponent<SphereCollider>().radius = 3;
             var effects = Instantiate(effect, transform.position, transform.rotation);
             FindObjectOfType<AudioManager>().Play("collider");
             Destroy(effects, 1.0f);
-            Destroy(gameObject);
+            Destroy(gameObject, 0.1f);
         }
 
 
         if(collision.gameObject.tag == "Wall")
         {
             gameObject.isStatic = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "ObsPlayer" || other.gameObject.tag == "ObsEnemy")
+        {
+
+            Destroy(other.gameObject);
+            Instantiate(effect, transform.position, transform.rotation);
+            Destroy(gameObject, 1.0f);
         }
     }
 }
