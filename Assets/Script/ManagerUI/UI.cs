@@ -14,6 +14,7 @@ public class UI : MonoBehaviour
     public GameObject settings;
     public GameObject winGame;
     public GameObject loseGameObj;
+    public GameObject map;
     public GameObject textCoins;
 
     private TouchInput inputs;
@@ -98,9 +99,10 @@ public class UI : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void arena()
+    public void showMap()
     {
-
+        SceneManager.LoadScene("Scenes/Map");
+        Debug.Log("abdasdas");
     }
 
 
