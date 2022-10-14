@@ -9,9 +9,16 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     private float MusicVolume = 0.5f;
-    private float SoundVolume = 0.5f;
+    private float BackgroundVolume = 0.5f;
     public Slider volumeSliderMusic;
-    public Slider VolumeSliderSound;
+    public Slider VolumeSliderBackGround;
+
+    public AudioSource backgroundAudio;
+    public AudioSource[] soundEffectsAudio;
+
+    private bool isMusic;
+    private bool isEffect;
+
 
     private void Awake()
     {
@@ -24,19 +31,24 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
-;        }
+            s.source.mute = s.mute;
+        }
+
     }
+
 
     private void Start()
     {
-        Play("MainGame");
         MusicVolume = PlayerPrefs.GetFloat(PrefConst.MUSIC);
         volumeSliderMusic.value = MusicVolume;
+        BackgroundVolume = PlayerPrefs.GetFloat(PrefConst.SOUND);
+        VolumeSliderBackGround.value = BackgroundVolume;
     }
 
     private void Update()
     {
         PlayerPrefs.SetFloat(PrefConst.MUSIC, MusicVolume);
+        PlayerPrefs.SetFloat(PrefConst.SOUND, BackgroundVolume);
     }
 
     public void Play(string name)
@@ -49,18 +61,50 @@ public class AudioManager : MonoBehaviour
     public void UpdateVolumeMusic(float volume)
     {
         gameObject.GetComponent<AudioSource>().volume = MusicVolume;
+
         MusicVolume = volume;
+
+        foreach (Sound s in sounds)
+        {
+            s.source.volume = volume;
+        }
     }
 
-    public void MusicReset()
+    public void MusicON()
     {
-        PlayerPrefs.DeleteKey("music");
-        //gameObject.AddComponent<AudioSource>().volume = 1;
-        volumeSliderMusic.value = 1;
+        foreach (Sound s in sounds)
+        {
+            s.source.mute = false;
+        }
+        PlayerPrefs.Save();
     }
 
-    public void MuteMusic()
+    public void MuSicOff()
     {
-        AudioListener.volume = 0;
+        foreach (Sound s in sounds)
+        {
+            s.source.mute = true;
+        }
+        PlayerPrefs.Save();
+    }
+
+    public void UpdateEffect(float volume)
+    {
+        backgroundAudio.volume = BackgroundVolume;
+        BackgroundVolume = volume;
+        PlayerPrefs.Save();
+    }
+
+    public void EffectOn()
+    {
+        backgroundAudio.mute = false;
+        PlayerPrefs.Save();
+    }
+
+    public void EffectOff()
+    {
+        backgroundAudio.mute = true;
+        PlayerPrefs.Save();
+        
     }
 }
