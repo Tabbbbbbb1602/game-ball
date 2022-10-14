@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GUIManager : Singleton<GUIManager>
 {
     public Text coinCountingText;
+    public GameObject backLevel;
 
     public override void Awake()
     {
@@ -24,6 +26,9 @@ public class GUIManager : Singleton<GUIManager>
             coinCountingText.text = "" + Pref.Coins;
     }
 
- 
+    public void backGame()
+    {
+        SceneManager.LoadScene("Scenes/Game");
+    }
 
 }

@@ -8,18 +8,6 @@ public class OnToOff : MonoBehaviour
     public GameObject On;
     public GameObject Off;
 
-    private bool isOnorOff;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
- 
-    }
-
     public void OnMusic()
     {
         On.SetActive(false);

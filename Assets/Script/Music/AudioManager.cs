@@ -1,28 +1,26 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
 using System;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
+    //source từ tệp source
     public Sound[] sounds;
     public static AudioManager instance;
 
     private float MusicVolume = 0.5f;
     private float BackgroundVolume = 0.5f;
+    
+    //slider
     public Slider volumeSliderMusic;
     public Slider VolumeSliderBackGround;
 
+    //âm thanh nền
     public AudioSource backgroundAudio;
-    public AudioSource[] soundEffectsAudio;
-
-    private bool isMusic;
-    private bool isEffect;
-
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -33,12 +31,13 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
             s.source.mute = s.mute;
         }
-
+        DontDestroyOnLoad(gameObject);
     }
 
 
     private void Start()
     {
+        //lấy âm thanh nếu chưa có thì khởi tạo, có rồi thì lấy ra
         MusicVolume = PlayerPrefs.GetFloat(PrefConst.MUSIC);
         volumeSliderMusic.value = MusicVolume;
         BackgroundVolume = PlayerPrefs.GetFloat(PrefConst.SOUND);
@@ -47,12 +46,14 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
+        //save âm thanh
         PlayerPrefs.SetFloat(PrefConst.MUSIC, MusicVolume);
         PlayerPrefs.SetFloat(PrefConst.SOUND, BackgroundVolume);
     }
 
     public void Play(string name)
     {
+        //Play âm thanh theo tên
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null) return;
         s.source.Play();
@@ -60,6 +61,7 @@ public class AudioManager : MonoBehaviour
 
     public void UpdateVolumeMusic(float volume)
     {
+        //upload âm thanh theo volume
         gameObject.GetComponent<AudioSource>().volume = MusicVolume;
 
         MusicVolume = volume;
@@ -69,6 +71,8 @@ public class AudioManager : MonoBehaviour
             s.source.volume = volume;
         }
     }
+
+    //turn off and turn on music
 
     public void MusicON()
     {
@@ -90,11 +94,13 @@ public class AudioManager : MonoBehaviour
 
     public void UpdateEffect(float volume)
     {
+        //upload âm thanh theo volume
         backgroundAudio.volume = BackgroundVolume;
         BackgroundVolume = volume;
         PlayerPrefs.Save();
     }
 
+    //turn off and turn on sound
     public void EffectOn()
     {
         backgroundAudio.mute = false;

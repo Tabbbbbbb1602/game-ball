@@ -12,4 +12,7 @@ public class PrefConst
     //audio
     public const string MUSIC = "music";
     public const string SOUND = "sound";
+
+    public const string MUTEMUSIC = "mutemusic";
+    public const string MUTESOUND = "mutesound";
 }
