@@ -8,6 +8,10 @@ public class ShopDialog : Dialog
     public Transform gridRoot;
     public ShopItemUI itemUIPrefab;
 
+    public Transform GridBall;
+
+    public ShopItemUIBall ItemBallPrefab;
+
     /*public override void Show(bool isShow)
     {
         base.Show(isShow);
@@ -18,7 +22,8 @@ public class ShopDialog : Dialog
     private void Start()
     {
         UpdateUI();
-    }
+        UpdateUIBall();
+    }   
 
     private void UpdateUI()
     {
@@ -51,7 +56,38 @@ public class ShopDialog : Dialog
                     itemUIClone.btn.onClick.RemoveAllListeners();
                     itemUIClone.btn.onClick.AddListener(() => ItemEvent(item, index));
                 }
+            }
+        }
+    }
 
+    private void UpdateUIBall()
+    {
+        var itemsBall = ShopManager.Ins.itemsBall;
+        if (itemsBall == null || itemsBall.Length <= 0 || !GridBall || !ItemBallPrefab) return;
+
+        //xoa ca phan tu khi quay ve shop
+        ClearChildsBall();
+
+        for (int i = 0; i < itemsBall.Length; i++)
+        {
+            int indexBall = i;
+            var itemBall = itemsBall[i];
+
+            if (itemsBall != null)
+            {
+                var itemBallClone = Instantiate(ItemBallPrefab, Vector3.zero, Quaternion.identity);
+                itemBallClone.transform.SetParent(GridBall);
+
+                itemBallClone.transform.localPosition = Vector3.zero;
+                itemBallClone.transform.localScale = Vector3.one;
+
+                itemBallClone.UpdateUIBall(itemBall, indexBall);
+
+                if (itemBallClone.btn)
+                {
+                    itemBallClone.btn.onClick.RemoveAllListeners();
+                    itemBallClone.btn.onClick.AddListener(() => BallItemEvent(itemBall, indexBall));
+                }
             }
         }
     }
@@ -61,6 +97,7 @@ public class ShopDialog : Dialog
         if (item == null) return;
 
         bool isUnlocked = Pref.GetBool(PrefConst.PLAYER_PEFIX + shopItemId);
+
 
         if (isUnlocked)
         {
@@ -94,6 +131,43 @@ public class ShopDialog : Dialog
         }
     }
 
+    
+    void BallItemEvent(BallItem item, int ballItemId)
+    {
+        if (item == null) return;
+        bool isUnlocked = Pref.GetBool(PrefConst.BALL_PEFIX + ballItemId);
+
+
+        if (isUnlocked)
+        {
+            if (ballItemId == Pref.CurBallId) return;
+
+            Pref.CurBallId = ballItemId;
+
+
+            //Active Ball
+            GameManager.Ins.ActiveBall();
+            UpdateUIBall();
+        }
+        else
+        {
+            if(Pref.Coins >= item.priceBall)
+            {
+                Pref.Coins -= item.priceBall;
+                Pref.SetBool(PrefConst.BALL_PEFIX + ballItemId, true);
+                Pref.CurBallId = ballItemId;
+
+                GUIManager.Ins.UpdateCoins();
+                GameManager.Ins.ActiveBall();
+                UpdateUIBall();
+            }
+            else
+            {
+                Debug.Log("You don't enough coins !!!");
+            }
+        }
+    }
+
     public void ClearChilds()
     {
         if (!gridRoot || gridRoot.childCount <= 0) return;
@@ -101,6 +175,21 @@ public class ShopDialog : Dialog
         for (int i = 0; i < gridRoot.childCount; i++)
         {
             var child = gridRoot.GetChild(i);
+
+            if (child)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+
+    public void ClearChildsBall()
+    {
+        if (!GridBall || GridBall.childCount <= 0) return;
+
+        for(int i = 0; i < GridBall.childCount; i++)
+        {
+            var child = GridBall.GetChild(i);
 
             if (child)
             {

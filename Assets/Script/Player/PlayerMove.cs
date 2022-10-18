@@ -29,12 +29,10 @@ public class PlayerMove : MonoBehaviour
     Vector2 delta;
     Vector3 gravity = Vector3.zero;
 
+
     Animator m_animator;
 
     public GameObject countObstacleEnemy;
-
-    /*public GameObject winGame;
-    public GameObject gameLoad;*/
 
     public GameObject partialVictory;
     private float time;
@@ -44,6 +42,7 @@ public class PlayerMove : MonoBehaviour
     private int count = 0;
 
     private GameObject ballTohammer;
+
     private void Start()
     {
         copyBall = Instantiate(Ball, Vector3.zero + new Vector3(1.0f, 1.0f, -30.0f), Quaternion.identity);
@@ -180,6 +179,8 @@ public class PlayerMove : MonoBehaviour
         copyBall.transform.GetComponent<ColliderBall>().tag = "Player";
         copyBall.GetComponent<Renderer>().material.SetColor("_Color", Color.red);   
         copyBall.GetComponent<Rigidbody>().isKinematic = true;
+       /* var b_rigibody = copyBall.GetComponent<Rigidbody>();
+        b_rigibody.AddForce(0, 0, 100.0f, ForceMode.Impulse);*/
     }
 
 

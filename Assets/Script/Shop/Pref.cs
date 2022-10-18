@@ -26,6 +26,13 @@ public class Pref
         get => PlayerPrefs.GetInt(PrefConst.COIN_KEY);
     }
 
+    //lay Ball hien tai tren may nguoi dung
+    public static int CurBallId
+    {
+        set => PlayerPrefs.SetInt(PrefConst.CUR_BALL_ID, value);
+        get => PlayerPrefs.GetInt(PrefConst.CUR_BALL_ID);
+    }
+
     //thực hiện get và set bool giá trị của pref
     public static void SetBool(string key, bool isOn)
     {

@@ -8,7 +8,9 @@ public class HammerColliderEnemy : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy")
         {
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
+            Destroy(other.gameObject, 3.0f);
+
         }
     }
 }

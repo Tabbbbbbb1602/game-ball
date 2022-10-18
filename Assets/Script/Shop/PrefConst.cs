@@ -15,4 +15,8 @@ public class PrefConst
 
     public const string MUTEMUSIC = "mutemusic";
     public const string MUTESOUND = "mutesound";
+
+    //ball
+    public const string BALL_PEFIX = "ball_";
+    public const string CUR_BALL_ID = "cur_ball_id";
 }

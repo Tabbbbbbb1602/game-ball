@@ -102,7 +102,6 @@ public class UI : MonoBehaviour
     public void showMap()
     {
         SceneManager.LoadScene("Scenes/Map");
-        Debug.Log("abdasdas");
     }
 
 

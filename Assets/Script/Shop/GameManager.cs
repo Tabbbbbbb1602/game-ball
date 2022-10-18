@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    //public UnityEvent OnWin;
     Player m_player;
+    GameObject m_baller;
 
     public override void Awake()
     {
@@ -21,6 +21,7 @@ public class GameManager : Singleton<GameManager>
             Pref.Coins = 30000;
 
         ActivePlayer();
+        ActiveBall();
         GUIManager.Ins.UpdateCoins();
 
         //xoa qua bong do co script trong unity
@@ -40,14 +41,25 @@ public class GameManager : Singleton<GameManager>
 
         var newPlayerPrefab = ShopManager.Ins.items[Pref.CurPlayerId].playerPb;
 
-
         if (newPlayerPrefab)
         {
             m_player = Instantiate(newPlayerPrefab, new Vector3(0.0f, 13.0f, 60.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
-            //m_player.enabled = false;
             m_player.GetComponent<CharacterController>().enabled = false;
             m_player.GetComponent<PlayerMove>().enabled = false;
         }
 
+    }
+
+    public void ActiveBall()
+    {
+        if (m_baller)
+            Destroy(m_baller.gameObject);
+
+        GameObject newBallerPrefab = ShopManager.Ins.itemsBall[Pref.CurBallId].BallPb;
+
+        if (newBallerPrefab)
+        {
+            m_baller = Instantiate(newBallerPrefab, new Vector3(-1.46f, 14.23f, 60.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
+        }
     }
 }

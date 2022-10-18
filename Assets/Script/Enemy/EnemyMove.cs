@@ -40,6 +40,7 @@ public class EnemyMove : MonoBehaviour
     //event
     private UnityAction m_MyFirstAction;
 
+    
     void Start()
     {
         StartCoroutine(MoveEnemy(2.0f));
@@ -56,6 +57,7 @@ public class EnemyMove : MonoBehaviour
     {
         m_animator = gameObject.GetComponent<Animator>();
         m_animator.SetBool("isRunning", true);
+        StartCoroutine(spawEnemy(0f));
     }
 
     public void obstaclePlayer()
@@ -75,6 +77,8 @@ public class EnemyMove : MonoBehaviour
         if(collision.gameObject.tag == "Hammer")
         {
             //thuc hien gi do
+            StartCoroutine(spawEnemy(1.0f));
+            Debug.Log("ok0");
         }
         if (collision.gameObject.tag == "Cube")
         {
@@ -124,13 +128,14 @@ public class EnemyMove : MonoBehaviour
 
     IEnumerator spawEnemy(float waitTime)
     {
-        Vector3 spawnPos = Vector3.zero;
         yield return new WaitForSeconds(waitTime);
 
+        /*Vector3 spawnPos = Vector3.zero;
         spawnPos.x = Random.Range(-9f, 9f);
         spawnPos.y = 0;
         spawnPos.z = 5f;
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);*/
+
     }
 
     IEnumerator MoveEnemy(float waitTime)
