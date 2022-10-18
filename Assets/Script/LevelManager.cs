@@ -47,16 +47,18 @@ public class LevelManager : Singleton<LevelManager>
     }
 
     //active Ball
-    public void ActiveBall()
+    /*public void ActiveBall()
     {
         if (m_ball)
             Destroy(m_ball.gameObject);
 
         GameObject newBallerPrefab = ShopManager.Ins.itemsBall[Pref.CurBallId].BallPb;
 
+        Debug.Log(newBallerPrefab);
+
         if (newBallerPrefab)
         {
             m_ball = Instantiate(newBallerPrefab, new Vector3(1.0f, 1.0f, -30.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
         }
-    }
+    }*/
 }

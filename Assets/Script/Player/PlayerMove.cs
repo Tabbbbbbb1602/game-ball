@@ -43,11 +43,17 @@ public class PlayerMove : MonoBehaviour
 
     private GameObject ballTohammer;
 
+
+
+    GameObject m_ball;
+
+
+
     private void Start()
     {
-        copyBall = Instantiate(Ball, Vector3.zero + new Vector3(1.0f, 1.0f, -30.0f), Quaternion.identity);
-        copyBall.transform.GetComponent<ColliderBall>().tag = "Player";
-        copyBall.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        //copyBall = Instantiate(Ball, Vector3.zero + new Vector3(1.0f, 1.0f, -30.0f), Quaternion.identity);
+        m_ball.transform.GetComponent<ColliderBall>().tag = "Player";
+        //copyBall.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         countObstacleEnemy = GameObject.Find("ObstacleEnemy");
         haveBall = true;
     }
@@ -58,6 +64,8 @@ public class PlayerMove : MonoBehaviour
         m_animator = gameObject.GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         m_animator.SetBool("isRunning", false);
+        activeBall();
+        Debug.Log(m_ball);
     }
     private void OnEnable()
     {
@@ -97,7 +105,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (haveBall)
         {
-            StartPos = copyBall.transform.position;
+            StartPos = m_ball.transform.position;
             m_animator.SetBool("isRunning", true);
         }
     }
@@ -106,7 +114,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (haveBall)
         {
-            copyBall.GetComponent<Rigidbody>().isKinematic = false;
+            m_ball.GetComponent<Rigidbody>().isKinematic = false;
             EndPos = transform.position;
             Throw();
         }
@@ -149,7 +157,7 @@ public class PlayerMove : MonoBehaviour
                 }
                 else
                 {
-                    ballTohammer = Ball;
+                    ballTohammer = m_ball;
                 }
             }
             else
@@ -175,12 +183,10 @@ public class PlayerMove : MonoBehaviour
 
     void spawnBall()
     {
-        copyBall = Instantiate(ballTohammer, gameObject.transform.position + new Vector3(1.0f, 1.5f, 1.0f), Quaternion.identity);
-        copyBall.transform.GetComponent<ColliderBall>().tag = "Player";
-        copyBall.GetComponent<Renderer>().material.SetColor("_Color", Color.red);   
-        copyBall.GetComponent<Rigidbody>().isKinematic = true;
-       /* var b_rigibody = copyBall.GetComponent<Rigidbody>();
-        b_rigibody.AddForce(0, 0, 100.0f, ForceMode.Impulse);*/
+        m_ball = Instantiate(ballTohammer, gameObject.transform.position + new Vector3(1.0f, 1.5f, 1.0f), Quaternion.identity);
+        m_ball.transform.GetComponent<ColliderBall>().tag = "Player";
+        m_ball.GetComponent<Renderer>().material.SetColor("_Color", Color.red);   
+        m_ball.GetComponent<Rigidbody>().isKinematic = true;
     }
 
 
@@ -190,10 +196,24 @@ public class PlayerMove : MonoBehaviour
         if (haveBall)
         {
             direction = ((EndPos - StartPos) + new Vector3(2, 0, 10)).normalized;
-            copyBall.GetComponent<Rigidbody>().AddForce(direction * ballSpeed, ForceMode.Impulse);
+            m_ball.GetComponent<Rigidbody>().AddForce(direction * ballSpeed, ForceMode.Impulse);
             m_animator.SetBool("isRunning", true);
             haveBall = false;
             FindObjectOfType<AudioManager>().Play("throw");
+        }
+    }
+
+    //lấy quả bóng được lưu trong máy tính ra
+    void activeBall()
+    {
+        if (m_ball)
+            Destroy(m_ball.gameObject);
+
+        GameObject newBallerPrefab = ShopManager.Ins.itemsBall[Pref.CurBallId].BallPb;
+
+        if (newBallerPrefab)
+        {
+            m_ball = Instantiate(newBallerPrefab, new Vector3(1.0f, 1.0f, -30.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
         }
     }
 }

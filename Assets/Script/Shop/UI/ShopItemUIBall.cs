@@ -22,7 +22,6 @@ public class ShopItemUIBall : MonoBehaviour
 
         bool isUnlocked = Pref.GetBool(PrefConst.BALL_PEFIX + ballItemId);//ball_1
 
-        Debug.Log(isUnlocked);
 
         if (isUnlocked)
         {
