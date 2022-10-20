@@ -10,13 +10,18 @@ public class LevelManager : Singleton<LevelManager>
 
     GameObject m_ball;
 
+
     [SerializeField] private GameObject enemyPrefab;
 
+    public int countEnemySpawn;
+    private int countEnemyDefault = 0;
     public override void Awake()
     {
         MakeSingleton(false);
         Time.timeScale = 1;
     }
+
+    
     public override void Start()
     {
         base.Start();
@@ -27,6 +32,12 @@ public class LevelManager : Singleton<LevelManager>
         ActivePlayer();
         //ActiveBall();
         GUIManager.Ins.UpdateCoins();
+        StartCoroutine(SpawnEnemy(0.5f));
+    }
+
+    private void OnEnable()
+    {
+        EnemyMove.OnEnemyDead += StartSpawnEnemy;
     }
 
     public void ActivePlayer()
@@ -46,19 +57,25 @@ public class LevelManager : Singleton<LevelManager>
 
     }
 
-    //active Ball
-    /*public void ActiveBall()
+    private void OnDisable()
     {
-        if (m_ball)
-            Destroy(m_ball.gameObject);
+        EnemyMove.OnEnemyDead -= StartSpawnEnemy;
+    }
 
-        GameObject newBallerPrefab = ShopManager.Ins.itemsBall[Pref.CurBallId].BallPb;
+    private void StartSpawnEnemy()
+    {
+        countEnemyDefault--;
+        StartCoroutine(SpawnEnemy(0.5f));
+    }
 
-        Debug.Log(newBallerPrefab);
-
-        if (newBallerPrefab)
+    IEnumerator SpawnEnemy(float waitTime)
+    {
+       
+        while(countEnemyDefault <= countEnemySpawn)
         {
-            m_ball = Instantiate(newBallerPrefab, new Vector3(1.0f, 1.0f, -30.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
+            Instantiate(enemyPrefab, new Vector3(8.0f, 0f, 25.0f), Quaternion.identity);
+            countEnemyDefault++;
+            yield return new WaitForSeconds(waitTime);
         }
-    }*/
+    }
 }

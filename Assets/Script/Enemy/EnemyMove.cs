@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -40,6 +41,8 @@ public class EnemyMove : MonoBehaviour
     //event
     private UnityAction m_MyFirstAction;
 
+    public static event Action OnEnemyDead;
+
     
     void Start()
     {
@@ -57,7 +60,7 @@ public class EnemyMove : MonoBehaviour
     {
         m_animator = gameObject.GetComponent<Animator>();
         m_animator.SetBool("isRunning", true);
-        StartCoroutine(spawEnemy(0f));
+        //handleEnemy();
     }
 
     public void obstaclePlayer()
@@ -77,8 +80,6 @@ public class EnemyMove : MonoBehaviour
         if(collision.gameObject.tag == "Hammer")
         {
             //thuc hien gi do
-            StartCoroutine(spawEnemy(1.0f));
-            Debug.Log("ok0");
         }
         if (collision.gameObject.tag == "Cube")
         {
@@ -105,11 +106,11 @@ public class EnemyMove : MonoBehaviour
         if (haveBall)
         {
             //random hướng ném giữa các vật thể
-            int index = Random.Range(0, countObstaclePlayer.transform.childCount);
+            int index = UnityEngine.Random.Range(0, countObstaclePlayer.transform.childCount);
             Transform target = countObstaclePlayer.transform.GetChild(index);
             directionEnemy = target.position - copyBall.transform.position;
-            directionEnemy.x = Random.Range(directionEnemy.x - 10f, directionEnemy.x + 10f);
-            directionEnemy.z = Random.Range(directionEnemy.z - 10f, directionEnemy.z + 10f);
+            directionEnemy.x = UnityEngine.Random.Range(directionEnemy.x - 10f, directionEnemy.x + 10f);
+            directionEnemy.z = UnityEngine.Random.Range(directionEnemy.z - 10f, directionEnemy.z + 10f);
             copyBall.GetComponent<Rigidbody>().isKinematic = false;
 
             //thực hiện ném
@@ -126,25 +127,13 @@ public class EnemyMove : MonoBehaviour
         gameObject.GetComponent<BoxCollider>().isTrigger = false;
     }
 
-    IEnumerator spawEnemy(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-
-        /*Vector3 spawnPos = Vector3.zero;
-        spawnPos.x = Random.Range(-9f, 9f);
-        spawnPos.y = 0;
-        spawnPos.z = 5f;
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);*/
-
-    }
-
     IEnumerator MoveEnemy(float waitTime)
     {
         
         yield return new WaitForSeconds(waitTime);
 
-        xPos = Random.Range(-15.0f, 14.5f);
-        zPos = Random.Range(8.0f, 25.0f);
+        xPos = UnityEngine.Random.Range(-15.0f, 14.5f);
+        zPos = UnityEngine.Random.Range(8.0f, 25.0f);
         position = new Vector3(xPos, 0.5f, zPos);
         if (haveBall)
         {
@@ -156,4 +145,13 @@ public class EnemyMove : MonoBehaviour
         }
         StartCoroutine(MoveEnemy(2.0f));
     }
+
+    //gọi event khi object bị hủy
+    private void OnDestroy()
+    {
+        OnEnemyDead?.Invoke();
+    }
+
+    
+
 }

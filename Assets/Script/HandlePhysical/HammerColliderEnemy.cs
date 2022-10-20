@@ -10,7 +10,6 @@ public class HammerColliderEnemy : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             Destroy(other.gameObject, 3.0f);
-
         }
     }
 }

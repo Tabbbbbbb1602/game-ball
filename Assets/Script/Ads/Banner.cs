@@ -38,7 +38,7 @@ using UnityEngine;
             ad = MediationService.Instance.CreateBannerAd(
                 adUnitId,
                 BannerAdPredefinedSize.Banner.ToBannerAdSize(),
-                BannerAdAnchor.TopCenter,
+                BannerAdAnchor.BottomCenter,
                 Vector2.zero);
 
             //Subscribe to events
