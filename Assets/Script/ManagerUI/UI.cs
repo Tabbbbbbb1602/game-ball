@@ -33,7 +33,9 @@ public class UI : MonoBehaviour
 
     private void Start()
     {
-        //victoryGame();
+       /* var adsInterstitial = new Interstitial();
+        adsInterstitial.InitServices();
+        adsInterstitial.ShowAd();*/
     }
 
     private void OnEnable()
@@ -127,7 +129,7 @@ public class UI : MonoBehaviour
     {
         winGame.SetActive(true);
         gameLoad.SetActive(false);
-    }
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                      
 
     public void loseGames()
     {
@@ -141,5 +143,8 @@ public class UI : MonoBehaviour
         if (coinCountingText)
             coinCountingText.text = "" + Pref.Coins;
     }
+
+
+
 
 }

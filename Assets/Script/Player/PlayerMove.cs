@@ -65,7 +65,6 @@ public class PlayerMove : MonoBehaviour
         controller = GetComponent<CharacterController>();
         m_animator.SetBool("isRunning", false);
         activeBall();
-        Debug.Log(m_ball);
     }
     private void OnEnable()
     {
@@ -90,11 +89,14 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
         {
+            //var adsInterstitial = new Interstitial();
             GameObject gameObjCube = GameObject.Find("Ball(Clone)");
             Destroy(gameObjCube);
             Instantiate(partialVictory, transform.position, transform.rotation);
+            //adsInterstitial.InitServices();
+            //adsInterstitial.ShowAd();
             UIManager.Ins.winGame();
             isVictory = true;
             m_animator.SetBool("isRunning", false);
