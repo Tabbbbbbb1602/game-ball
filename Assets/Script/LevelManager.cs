@@ -30,7 +30,6 @@ public class LevelManager : Singleton<LevelManager>
             Pref.Coins = 10000;
 
         ActivePlayer();
-        //ActiveBall();
         GUIManager.Ins.UpdateCoins();
         StartCoroutine(SpawnEnemy(0.5f));
     }

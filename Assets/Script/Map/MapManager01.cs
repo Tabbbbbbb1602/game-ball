@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapManager : MonoBehaviour
+public class MapManager01 : MonoBehaviour
 {
     public Transform itemGift;
     private int count = 0;
@@ -11,20 +11,20 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        //PlayerPrefs.SetInt("Map01", count);
+        //PlayerPrefs.SetInt("Map02", count);
         //PlayerPrefs.SetInt("map12", 1);
         //get map 01 
-        count = PlayerPrefs.GetInt("Map01");
-        //PlayerPrefs.GetInt("Map");
+        count = PlayerPrefs.GetInt("Map02");
+        //layerPrefs.GetInt("Map");
         //set true object actived
         for (var i = 0; i < count; i++)
         {
-           itemGift.GetChild(i).gameObject.SetActive(true);
+            itemGift.GetChild(i).gameObject.SetActive(true);
         }
 
     }
 
-    public void upgradeMap()
+    public void upgradeMapOnes()
     {
         //get coins
         int coins = Pref.Coins;
@@ -35,11 +35,11 @@ public class MapManager : MonoBehaviour
         coins -= priceItem;
         PlayerPrefs.SetInt("coins", coins);
         GUIManager.Ins.UpdateCoins();
-        PlayerPrefs.SetInt("Items", count);
-        PlayerPrefs.SetInt("Map01", count);
+        PlayerPrefs.SetInt("ItemsMapOne", count);
+        PlayerPrefs.SetInt("Map02", count);
         for (var i = 0; i < count; i++)
         {
-            if(coins > priceItem)
+            if (coins > priceItem)
             {
                 itemGift.GetChild(i).gameObject.SetActive(true);
             }
@@ -52,4 +52,3 @@ public class MapManager : MonoBehaviour
     }
 
 }
-

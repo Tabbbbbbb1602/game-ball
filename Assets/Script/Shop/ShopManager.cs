@@ -8,7 +8,7 @@ public class ShopManager : Singleton<ShopManager>
 
     public BallItem[] itemsBall;
 
-    private PlayerData playerData;
+    //private PlayerData playerData;
 
 
     private void Awake()
@@ -72,7 +72,7 @@ public class ShopManager : Singleton<ShopManager>
                 if (i == 0)
                 {
                     //Pref.SetBool(PrefConst.BALL_PEFIX + i, true);
-                    Pref.SetBool(PrefConst.BALL_PEFIX + i, true);//player_0
+                    Pref.SetBool(PrefConst.BALL_PEFIX + i, true);//map_0
                 }
                 else
                 {
@@ -106,7 +106,7 @@ public class BallItem
 }
 
 
-public class PlayerData
+/*public class PlayerData
 {
     public int a;
     public int b;
@@ -141,4 +141,4 @@ public class PlayerData
         return JsonUtility.FromJson<PlayerData>(json);
     }
 
-}
+}*/

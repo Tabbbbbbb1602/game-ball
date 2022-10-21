@@ -28,6 +28,4 @@ public class UIManager : Singleton<UIManager>
         OnChangeTextCoins?.Invoke();
     }
 
-
-
 }

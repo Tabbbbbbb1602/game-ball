@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Unity.Example
 {
-    public class RewardedAds : MonoBehaviour
+    public class UpgradeMapOne : MonoBehaviour
     {
         public Transform itemGift;
         private int count = 0;
@@ -19,7 +19,7 @@ namespace Unity.Example
         private void Start()
         {
             InitServices();
-            count = PlayerPrefs.GetInt("Map01");
+            count = PlayerPrefs.GetInt("Map02");
 
             //set true object actived
             for (var i = 0; i < count; i++)
@@ -153,14 +153,14 @@ namespace Unity.Example
         {
             int child = itemGift.childCount;
             count = count >= child ? child : count + 1;
-            PlayerPrefs.SetInt("Items", count);
+            PlayerPrefs.SetInt("ItemsMapOne", count);
 
             for (var i = 0; i < count; i++)
             {
                 itemGift.GetChild(i).gameObject.SetActive(true);
             }
 
-            PlayerPrefs.SetInt("Map01", count);
+            PlayerPrefs.SetInt("Map02", count);
         }
     }
 }
