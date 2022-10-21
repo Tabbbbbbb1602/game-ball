@@ -3,32 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIMapManager : MonoBehaviour
+public class LoadScene : MonoBehaviour
 {
     private int currentSceneIndex;
-    // Start is called before the first frame update
-    void Start()
+    public bool isLoadLevelCurrent;
+
+    private void Start()
     {
-        
+        if (isLoadLevelCurrent == true)
+        {
+            LoadGameContinue();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    public void LoadMap01()
-    {
-        SceneManager.LoadScene("Scenes/Map");
-    }
-
-    public void LoadMap02()
-    {
-        SceneManager.LoadScene("Scenes/Map 1");
-    }
-
-    public void backToMain()
+    public void LoadGameContinue()
     {
         currentSceneIndex = PlayerPrefs.GetInt("LevelSaved");
 

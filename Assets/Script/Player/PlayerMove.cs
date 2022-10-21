@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMove : MonoBehaviour
@@ -89,14 +90,13 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
         {
-            //var adsInterstitial = new Interstitial();
+            int activeScene = SceneManager.GetActiveScene().buildIndex;
+            PlayerPrefs.SetInt("LevelSaved", activeScene);
             GameObject gameObjCube = GameObject.Find("Ball(Clone)");
             Destroy(gameObjCube);
             Instantiate(partialVictory, transform.position, transform.rotation);
-            //adsInterstitial.InitServices();
-            //adsInterstitial.ShowAd();
             UIManager.Ins.winGame();
             isVictory = true;
             m_animator.SetBool("isRunning", false);
@@ -139,14 +139,6 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-       /* if (collision.gameObject.tag == "Cube")
-        {
-            m_animator.SetBool("isRunning", false);
-            Destroy(collision.gameObject);
-            haveBall = true;
-        }
-        spawnBall();*/
-
         if (collision.gameObject.tag == "Cube")
         {
             if(collision.gameObject.GetComponent<ColliderBall>().tag == "Player")

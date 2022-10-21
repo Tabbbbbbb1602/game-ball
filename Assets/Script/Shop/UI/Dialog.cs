@@ -9,15 +9,20 @@ public class Dialog : MonoBehaviour
 {
     public Text titleText;
     public Text contentText;
-
-    /*public virtual void Show(bool isShow)
-    {
-        gameObject.SetActive(isShow);
-    }*/
+    private int currentSceneIndex;
 
     public void backMenuMain()
     {
-        SceneManager.LoadScene("Game");
+        currentSceneIndex = PlayerPrefs.GetInt("LevelSaved");
+
+        if (PlayerPrefs.HasKey("LevelSaved"))
+        {
+            SceneManager.LoadScene(currentSceneIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene("Scenes/Game");
+        }
     }
 
 

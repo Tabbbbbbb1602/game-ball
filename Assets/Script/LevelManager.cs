@@ -10,7 +10,6 @@ public class LevelManager : Singleton<LevelManager>
 
     GameObject m_ball;
 
-
     [SerializeField] private GameObject enemyPrefab;
 
     public int countEnemySpawn;
@@ -25,7 +24,6 @@ public class LevelManager : Singleton<LevelManager>
     public override void Start()
     {
         base.Start();
-
         if (!PlayerPrefs.HasKey(PrefConst.COIN_KEY))
             Pref.Coins = 10000;
 

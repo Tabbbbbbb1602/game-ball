@@ -11,12 +11,7 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        //PlayerPrefs.SetInt("Map01", count);
-        //PlayerPrefs.SetInt("map12", 1);
-        //get map 01 
         count = PlayerPrefs.GetInt("Map01");
-        //PlayerPrefs.GetInt("Map");
-        //set true object actived
         for (var i = 0; i < count; i++)
         {
            itemGift.GetChild(i).gameObject.SetActive(true);
