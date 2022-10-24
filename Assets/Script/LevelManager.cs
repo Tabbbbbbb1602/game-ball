@@ -71,6 +71,9 @@ public class LevelManager : Singleton<LevelManager>
         while(countEnemyDefault <= countEnemySpawn)
         {
             Instantiate(enemyPrefab, new Vector3(8.0f, 0f, 25.0f), Quaternion.identity);
+
+            //bug
+            Instantiate(enemyPrefab, new Vector3(8.0f, 0f, 25.0f), Quaternion.identity);
             countEnemyDefault++;
             yield return new WaitForSeconds(waitTime);
         }
