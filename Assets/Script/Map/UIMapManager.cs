@@ -41,4 +41,19 @@ public class UIMapManager : MonoBehaviour
             SceneManager.LoadScene("Scenes/Game");
         }
     }
+
+    public void backToMainMapOne()
+    {
+        currentSceneIndex = PlayerPrefs.GetInt("LevelSaved");
+
+        if (PlayerPrefs.HasKey("LevelSaved"))
+        {
+            SceneManager.LoadScene(currentSceneIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene("Scenes/Game_Map_2");
+        }
+    }
+
 }

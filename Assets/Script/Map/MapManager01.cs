@@ -11,8 +11,6 @@ public class MapManager01 : MonoBehaviour
 
     private void Start()
     {
-        //PlayerPrefs.SetInt("Map02", count);
-        //PlayerPrefs.SetInt("map12", 1);
         //get map 01 
         count = PlayerPrefs.GetInt("Map02");
         //layerPrefs.GetInt("Map");

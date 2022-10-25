@@ -130,7 +130,6 @@ public class UI : MonoBehaviour
         winGame.SetActive(true);
         gameLoad.SetActive(false);
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log(currentLevel);
         PlayerPrefs.SetInt("BACKLEVEL", currentLevel);
     }                                                                                                                                                                                                                                                                                                                                                                                                                                      
 

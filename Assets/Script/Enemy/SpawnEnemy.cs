@@ -29,11 +29,12 @@ public class SpawnEnemy : MonoBehaviour
     void EnemySpawner()
     {
         int spawnPointIndex = Random.Range(0, spawnPoints.Length);
-
+        /*for(int i = 0; i <= spawnPoints.Length; i++)
+        {
+        }*/
         GameObject InstanceEnemies = Instantiate(enemy[index], spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation) as GameObject;
-
         EnemiesList.Add(InstanceEnemies);
-    }
+}
 
     private void OnDisable()
     {
