@@ -10,10 +10,6 @@ public class LevelManager : Singleton<LevelManager>
 
     GameObject m_ball;
 
-    [SerializeField] private GameObject enemyPrefab;
-
-    public int countEnemySpawn;
-    private int countEnemyDefault = 0;
     public override void Awake()
     {
         MakeSingleton(false);
@@ -29,12 +25,6 @@ public class LevelManager : Singleton<LevelManager>
 
         ActivePlayer();
         GUIManager.Ins.UpdateCoins();
-        StartCoroutine(SpawnEnemy(0.5f));
-    }
-
-    private void OnEnable()
-    {
-        EnemyMove.OnEnemyDead += StartSpawnEnemy;
     }
 
     public void ActivePlayer()
@@ -53,29 +43,5 @@ public class LevelManager : Singleton<LevelManager>
         }
 
     }
-
-    private void OnDisable()
-    {
-        EnemyMove.OnEnemyDead -= StartSpawnEnemy;
-    }
-
-    private void StartSpawnEnemy()
-    {
-        countEnemyDefault--;
-        StartCoroutine(SpawnEnemy(0.5f));
-    }
-
-    IEnumerator SpawnEnemy(float waitTime)
-    {
-       
-        while(countEnemyDefault <= countEnemySpawn)
-        {
-            Instantiate(enemyPrefab, new Vector3(8.0f, 0f, 25.0f), Quaternion.identity);
-
-            //bug
-            Instantiate(enemyPrefab, new Vector3(8.0f, 0f, 25.0f), Quaternion.identity);
-            countEnemyDefault++;
-            yield return new WaitForSeconds(waitTime);
-        }
-    }
+   
 }
