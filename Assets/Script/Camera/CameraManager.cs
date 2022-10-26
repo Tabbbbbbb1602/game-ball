@@ -24,6 +24,13 @@ public class CameraManager : MonoBehaviour
     private void OnEnable()
     {
         UIManager.Ins.OnVictory.AddListener(victoryGameCamera);
+        UIManager.Ins.OnLose.AddListener(loseGameCamera);
+    }
+
+    private void loseGameCamera()
+    {
+        CameraMain.SetActive(false);
+        cinemachineVirtualCamera.SetActive(true);
     }
 
     private void victoryGameCamera()
@@ -31,4 +38,5 @@ public class CameraManager : MonoBehaviour
         CameraMain.SetActive(false);
         cinemachineVirtualCamera.SetActive(true);
     }
+
 }

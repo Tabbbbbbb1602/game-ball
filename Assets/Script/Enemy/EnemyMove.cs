@@ -51,6 +51,23 @@ public class EnemyMove : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
+    private void OnEnable()
+    {
+        UIManager.Ins.OnEnemyLose.AddListener(enemyLose);
+    }
+
+    private void enemyLose()
+    {
+        navMeshAgent.enabled = false;
+        m_animator.SetBool("isRunning", false);
+        m_animator.SetBool("isLose", true);
+    }
+
+    private void OnDisable()
+    {
+        UIManager.Ins.OnEnemyLose.AddListener(enemyLose);
+    }
+
     private void Update()
     {
         obstaclePlayer();
@@ -64,13 +81,15 @@ public class EnemyMove : MonoBehaviour
 
     public void obstaclePlayer()
     {
-        if(countObstaclePlayer.transform.childCount == 0)
+        if(countObstaclePlayer.transform.childCount == 2)
         {
             GameObject gameObjCube = GameObject.FindGameObjectWithTag("Cube");
             Destroy(gameObjCube);
             UIManager.Ins.loseGame();
-            /*navMeshAgent.enabled = false;
-            m_animator.SetBool("isVictory", true);*/
+            navMeshAgent.enabled = false;
+            m_animator.SetBool("isRunning", false);
+            m_animator.SetBool("isVictory", true);
+            UIManager.Ins.playerLose();
         }
     }
 
@@ -87,6 +106,7 @@ public class EnemyMove : MonoBehaviour
             Destroy(collision.gameObject);
             gameObject.GetComponent<BoxCollider>().isTrigger = true;
             haveBall = true;
+            navMeshAgent.enabled = false;
             spawnBall();
             StartCoroutine(ThrowEnemy(2.0f));
         }
@@ -118,6 +138,8 @@ public class EnemyMove : MonoBehaviour
             StartCoroutine(SetIsTrigger(0.5f));
             m_animator.SetBool("isRunning", true);
             haveBall = false;
+
+            navMeshAgent.enabled = true;
         }
     }
 

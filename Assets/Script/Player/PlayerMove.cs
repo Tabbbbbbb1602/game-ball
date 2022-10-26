@@ -73,6 +73,7 @@ public class PlayerMove : MonoBehaviour
         inputs.touch.touchpos.performed += MovePlayer;
         inputs.touch.touchhold.started += StartThrow;
         inputs.touch.touchhold.canceled += EndThrow;
+        UIManager.Ins.OnPlayerLose.AddListener(playerLose);
         inputs.Enable();
     }
 
@@ -91,7 +92,7 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
         {
             int activeScene = SceneManager.GetActiveScene().buildIndex;
             PlayerPrefs.SetInt("LevelSaved", activeScene);
@@ -100,14 +101,24 @@ public class PlayerMove : MonoBehaviour
             Destroy(gameObjHammer);
             Destroy(gameObjCube);
             Instantiate(partialVictory, transform.position, transform.rotation);
-            UIManager.Ins.winGame();
             isVictory = true;
             m_animator.SetBool("isRunning", false);
             m_animator.SetBool("IsVictory", true);
 
+            UIManager.Ins.winGame();
+            UIManager.Ins.enemyLose();
+
             winGamePosition = new Vector3(0, 180, 0);
             transform.eulerAngles = winGamePosition;
         }
+    }
+
+    private void playerLose()
+    {
+        winGamePosition = new Vector3(0, 180, 0);
+        transform.eulerAngles = winGamePosition;
+        m_animator.SetBool("isRunning", false);
+        m_animator.SetBool("IsLose", true);
     }
 
     private void StartThrow(InputAction.CallbackContext obj)
@@ -141,6 +152,7 @@ public class PlayerMove : MonoBehaviour
         inputs.touch.touchpos.performed -= MovePlayer;
         inputs.touch.touchhold.started -= StartThrow;
         inputs.touch.touchhold.canceled -= EndThrow;
+        UIManager.Ins.OnPlayerLose.AddListener(playerLose);
         inputs.Disable();
     }
 
