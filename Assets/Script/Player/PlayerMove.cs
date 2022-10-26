@@ -91,11 +91,13 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
         {
             int activeScene = SceneManager.GetActiveScene().buildIndex;
             PlayerPrefs.SetInt("LevelSaved", activeScene);
-            GameObject gameObjCube = GameObject.Find("Ball(Clone)");
+            GameObject gameObjCube = GameObject.FindGameObjectWithTag("Cube");
+            GameObject gameObjHammer = GameObject.FindGameObjectWithTag("Hammer");
+            Destroy(gameObjHammer);
             Destroy(gameObjCube);
             Instantiate(partialVictory, transform.position, transform.rotation);
             UIManager.Ins.winGame();
@@ -146,24 +148,27 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.tag == "Cube")
         {
-            if(collision.gameObject.GetComponent<ColliderBall>().tag == "Player")
+            if (collision.gameObject.GetComponent<ColliderBall>().tag == "Player")
             {
                 count += 1;
-                if(count == 2)
+                Debug.Log(count);
+                if (count == 3)
                 {
                     ballTohammer = Hammer;
                     count = 0;
                 }
                 else
                 {
-                    ballTohammer = m_ball;
+                    ballTohammer = Ball;
                 }
             }
             else
             {
                 //neu cham khac enemy thi reset xuong 1
-                count = 1;
+                count = 1; 
+                ballTohammer = Ball;
             }
+
             m_animator.SetBool("isRunning", false);
             Destroy(collision.gameObject);
             haveBall = true;

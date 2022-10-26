@@ -39,17 +39,16 @@ public class EnemyMove : MonoBehaviour
     public GameObject gameLoad;
 
     //event
-    private UnityAction m_MyFirstAction;
-
     public static event Action OnEnemyDead;
 
-    
+    private NavMeshAgent navMeshAgent;
+
     void Start()
     {
         StartCoroutine(MoveEnemy(2.0f));
         haveBall = false;
-
         countObstaclePlayer = GameObject.Find("ObstaclePlayer");
+        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
@@ -67,10 +66,11 @@ public class EnemyMove : MonoBehaviour
     {
         if(countObstaclePlayer.transform.childCount == 0)
         {
-            GameObject gameObjCube = GameObject.Find("Ball(Clone)");
+            GameObject gameObjCube = GameObject.FindGameObjectWithTag("Cube");
             Destroy(gameObjCube);
             UIManager.Ins.loseGame();
-            Time.timeScale = 0;
+            /*navMeshAgent.enabled = false;
+            m_animator.SetBool("isVictory", true);*/
         }
     }
 
