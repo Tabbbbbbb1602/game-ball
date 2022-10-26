@@ -6,10 +6,18 @@ using UnityEngine.SceneManagement;
 public class UIMapManager : MonoBehaviour
 {
     private int currentSceneIndex;
+    /*rivate int count = 0;
+    public Transform itemGift;*/
     // Start is called before the first frame update
     void Start()
     {
-        
+       /* count = PlayerPrefs.GetInt("Map02");
+        //layerPrefs.GetInt("Map");
+        //set true object actived
+        for (var i = 0; i < count; i++)
+        {
+            itemGift.GetChild(i).gameObject.SetActive(true);
+        }*/
     }
 
     // Update is called once per frame

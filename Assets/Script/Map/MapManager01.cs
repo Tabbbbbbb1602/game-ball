@@ -11,7 +11,7 @@ public class MapManager01 : MonoBehaviour
 
     private void Start()
     {
-        //get map 01 
+            //get map 01 
         count = PlayerPrefs.GetInt("Map02");
         //layerPrefs.GetInt("Map");
         //set true object actived

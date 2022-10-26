@@ -69,10 +69,10 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnEnable()
     {
-        inputs.Enable();
         inputs.touch.touchpos.performed += MovePlayer;
         inputs.touch.touchhold.started += StartThrow;
         inputs.touch.touchhold.canceled += EndThrow;
+        inputs.Enable();
     }
 
     private void Update()
