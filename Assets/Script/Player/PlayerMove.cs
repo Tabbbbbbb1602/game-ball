@@ -49,6 +49,7 @@ public class PlayerMove : MonoBehaviour
     GameObject m_ball;
 
 
+    Vector3 winGamePosition;
 
     private void Start()
     {
@@ -90,7 +91,7 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
         {
             int activeScene = SceneManager.GetActiveScene().buildIndex;
             PlayerPrefs.SetInt("LevelSaved", activeScene);
@@ -100,6 +101,10 @@ public class PlayerMove : MonoBehaviour
             UIManager.Ins.winGame();
             isVictory = true;
             m_animator.SetBool("isRunning", false);
+            m_animator.SetBool("IsVictory", true);
+
+            winGamePosition = new Vector3(0, 180, 0);
+            transform.eulerAngles = winGamePosition;
         }
     }
 
