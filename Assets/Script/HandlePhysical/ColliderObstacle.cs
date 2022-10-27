@@ -14,8 +14,10 @@ public class ColliderObstacle : MonoBehaviour
     public string tag;
 
     public GameObject ps;
+    private GameObject enemyObjMap;
 
     //Kiểm tra va chạm ở vật thể
+
     private void OnCollisionEnter(Collision collision)
     {
 
@@ -53,6 +55,7 @@ public class ColliderObstacle : MonoBehaviour
                     {
                         UIManager.Ins.changeTextCoins();
                     }
+
                 }
             }
 

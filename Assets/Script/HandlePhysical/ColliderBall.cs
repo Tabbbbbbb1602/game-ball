@@ -42,7 +42,7 @@ public class ColliderBall : MonoBehaviour
                 }
                 if (collision.transform.GetComponent<ColliderBall>().tag == tag)
                 {
-                    Destroy(gameObject);
+                   
                 }
             }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMove : MonoBehaviour
@@ -48,14 +49,13 @@ public class PlayerMove : MonoBehaviour
 
     GameObject m_ball;
 
-
     Vector3 winGamePosition;
+
+    public Slider slider;
 
     private void Start()
     {
-        //copyBall = Instantiate(Ball, Vector3.zero + new Vector3(1.0f, 1.0f, -30.0f), Quaternion.identity);
         m_ball.transform.GetComponent<ColliderBall>().tag = "Player";
-        //copyBall.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         countObstacleEnemy = GameObject.Find("ObstacleEnemy");
         haveBall = true;
     }
@@ -162,23 +162,20 @@ public class PlayerMove : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<ColliderBall>().tag == "Player")
             {
+                ballTohammer = Ball;
                 count += 1;
-                Debug.Log(count);
-                if (count == 3)
+                if(count == 3)
                 {
                     ballTohammer = Hammer;
-                    count = 0;
                 }
-                else
-                {
-                    ballTohammer = Ball;
-                }
+                slider.value = count;
             }
             else
             {
                 //neu cham khac enemy thi reset xuong 1
-                count = 1; 
+                count = 0;
                 ballTohammer = Ball;
+                slider.value = count;
             }
 
             m_animator.SetBool("isRunning", false);
@@ -189,6 +186,8 @@ public class PlayerMove : MonoBehaviour
 
         if(collision.gameObject.tag == "Hammer")
         {
+            count = 0;
+            slider.value = count;
             ballTohammer = Ball;
             m_animator.SetBool("isRunning", false);
             Destroy(collision.gameObject);
@@ -199,9 +198,14 @@ public class PlayerMove : MonoBehaviour
 
     void spawnBall()
     {
-        m_ball = Instantiate(ballTohammer, gameObject.transform.position + new Vector3(1.0f, 1.5f, 1.0f), Quaternion.identity);
+        
+        m_ball = Instantiate(ballTohammer, gameObject.transform.position + new Vector3(1.0f, 1.5f, -3.0f), Quaternion.identity);
         m_ball.transform.GetComponent<ColliderBall>().tag = "Player";
-        m_ball.GetComponent<Renderer>().material.SetColor("_Color", Color.red);   
+
+        Rigidbody rb = m_ball.GetComponent<Rigidbody>();
+        rb.AddForce(transform.up * 1000);
+
+        m_ball.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         m_ball.GetComponent<Rigidbody>().isKinematic = true;
     }
 

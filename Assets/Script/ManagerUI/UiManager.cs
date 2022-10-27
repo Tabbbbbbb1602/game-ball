@@ -11,6 +11,9 @@ public class UIManager : Singleton<UIManager>
     public UnityEvent OnPlayerLose = new UnityEvent();
     public UnityEvent OnEnemyLose = new UnityEvent();
     public UnityEvent OnChangeTextCoins = new UnityEvent();
+    public UnityEvent OnCountOne = new UnityEvent();
+    public UnityEvent OnCountTwo = new UnityEvent();
+    public UnityEvent OnCountThree = new UnityEvent();
 
     // Start is called before the first frame update
 
@@ -39,6 +42,21 @@ public class UIManager : Singleton<UIManager>
     public void changeTextCoins()
     {
         OnChangeTextCoins?.Invoke();
+    }
+
+    public void CountOne()
+    {
+        OnCountOne?.Invoke();
+    }
+
+    public void CountTwo()
+    {
+        OnCountTwo?.Invoke();
+    }
+
+    public void CountThree()
+    {
+        OnCountThree?.Invoke();
     }
 
 }

@@ -45,7 +45,7 @@ public class EnemyMove : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(MoveEnemy(2.0f));
+        //StartCoroutine(MoveEnemy(2.0f));
         haveBall = false;
         countObstaclePlayer = GameObject.Find("ObstaclePlayer");
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -76,7 +76,7 @@ public class EnemyMove : MonoBehaviour
     {
         m_animator = gameObject.GetComponent<Animator>();
         m_animator.SetBool("isRunning", true);
-        //handleEnemy();
+        //SetIsTriggerTurnOn();
     }
 
     public void obstaclePlayer()
@@ -109,6 +109,8 @@ public class EnemyMove : MonoBehaviour
             navMeshAgent.enabled = false;
             spawnBall();
             StartCoroutine(ThrowEnemy(2.0f));
+
+            //SetIsTriggerTurnOn();
         }
     }
 
@@ -118,6 +120,7 @@ public class EnemyMove : MonoBehaviour
         copyBall.transform.GetComponent<ColliderBall>().tag = "Enemy";
         copyBall.GetComponent<Rigidbody>().isKinematic = true;
         copyBall.GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
+        //copyBall.GetComponent<SphereCollider>().isTrigger = true;
     }
 
     IEnumerator ThrowEnemy(float waitTime)
@@ -135,7 +138,7 @@ public class EnemyMove : MonoBehaviour
 
             //thực hiện ném
             copyBall.GetComponent<Rigidbody>().AddForce(directionEnemy.normalized * PowEnemy, ForceMode.VelocityChange);
-            StartCoroutine(SetIsTrigger(0.5f));
+            StartCoroutine(SetIsTrigger(1.0f));
             m_animator.SetBool("isRunning", true);
             haveBall = false;
 
@@ -147,25 +150,6 @@ public class EnemyMove : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         gameObject.GetComponent<BoxCollider>().isTrigger = false;
-    }
-
-    IEnumerator MoveEnemy(float waitTime)
-    {
-        
-        yield return new WaitForSeconds(waitTime);
-
-        xPos = UnityEngine.Random.Range(-15.0f, 14.5f);
-        zPos = UnityEngine.Random.Range(8.0f, 25.0f);
-        position = new Vector3(xPos, 0.5f, zPos);
-        if (haveBall)
-        {
-            agent.SetDestination(gameObject.transform.position);
-        }
-        else
-        {
-            agent.SetDestination(position);
-        }
-        StartCoroutine(MoveEnemy(2.0f));
     }
 
     //gọi event khi object bị hủy
