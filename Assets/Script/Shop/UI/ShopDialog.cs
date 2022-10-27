@@ -12,13 +12,6 @@ public class ShopDialog : Dialog
 
     public ShopItemUIBall ItemBallPrefab;
 
-    /*public override void Show(bool isShow)
-    {
-        base.Show(isShow);
-
-        UpdateUI();
-    }*/
-
     private void Start()
     {
         UpdateUI();
@@ -32,7 +25,7 @@ public class ShopDialog : Dialog
         if (items == null || items.Length <= 0 || !gridRoot || !itemUIPrefab) return;
 
         //xoa cac phan tu con truoc khi ve lai shop
-        ClearChilds();
+        ClearChilds(gridRoot);
 
         for (int i = 0; i < items.Length; i++)
         {
@@ -54,7 +47,7 @@ public class ShopDialog : Dialog
                 if (itemUIClone.btn)
                 {
                     itemUIClone.btn.onClick.RemoveAllListeners();
-                    itemUIClone.btn.onClick.AddListener(() => ItemEvent(item, index));
+                    itemUIClone.btn.onClick.AddListener(() => PlayerItemEvent(item, index));
                 }
             }
         }
@@ -66,7 +59,7 @@ public class ShopDialog : Dialog
         if (itemsBall == null || itemsBall.Length <= 0 || !GridBall || !ItemBallPrefab) return;
 
         //xoa ca phan tu khi quay ve shop
-        ClearChildsBall();
+        ClearChilds(GridBall);
 
         for (int i = 0; i < itemsBall.Length; i++)
         {
@@ -92,7 +85,7 @@ public class ShopDialog : Dialog
         }
     }
 
-    void ItemEvent(ShopITem item, int shopItemId)
+    void PlayerItemEvent(ShopITem item, int shopItemId)
     {
         if (item == null) return;
 
@@ -168,28 +161,13 @@ public class ShopDialog : Dialog
         }
     }
 
-    public void ClearChilds()
+    public void ClearChilds(Transform grid)
     {
-        if (!gridRoot || gridRoot.childCount <= 0) return;
+        if (!grid || grid.childCount <= 0) return;
 
-        for (int i = 0; i < gridRoot.childCount; i++)
+        for (int i = 0; i < grid.childCount; i++)
         {
-            var child = gridRoot.GetChild(i);
-
-            if (child)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-    }
-
-    public void ClearChildsBall()
-    {
-        if (!GridBall || GridBall.childCount <= 0) return;
-
-        for(int i = 0; i < GridBall.childCount; i++)
-        {
-            var child = GridBall.GetChild(i);
+            var child = grid.GetChild(i);
 
             if (child)
             {

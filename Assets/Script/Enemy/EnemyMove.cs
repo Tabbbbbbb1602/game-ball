@@ -81,7 +81,7 @@ public class EnemyMove : MonoBehaviour
 
     public void obstaclePlayer()
     {
-        if(countObstaclePlayer.transform.childCount == 2)
+        if(countObstaclePlayer.transform.childCount == 0)
         {
             GameObject gameObjCube = GameObject.FindGameObjectWithTag("Cube");
             Destroy(gameObjCube);

@@ -92,7 +92,7 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
         {
             int activeScene = SceneManager.GetActiveScene().buildIndex;
             PlayerPrefs.SetInt("LevelSaved", activeScene);
