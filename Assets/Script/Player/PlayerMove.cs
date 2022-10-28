@@ -31,7 +31,6 @@ public class PlayerMove : MonoBehaviour
     Vector2 delta;
     Vector3 gravity = Vector3.zero;
 
-
     Animator m_animator;
 
     public GameObject countObstacleEnemy;
@@ -45,19 +44,21 @@ public class PlayerMove : MonoBehaviour
 
     private GameObject ballTohammer;
 
-
+    public GameObject g_direction;
 
     GameObject m_ball;
 
     Vector3 winGamePosition;
 
     public Slider slider;
-
+    public GameObject dirBallRender;
     private void Start()
     {
         m_ball.transform.GetComponent<ColliderBall>().tag = "Player";
         countObstacleEnemy = GameObject.Find("ObstacleEnemy");
         haveBall = true;
+        gameObject.GetComponent<BoxCollider>().isTrigger = true;
+        dirBallRender.SetActive(true);
     }
 
     private void Awake()
@@ -88,6 +89,19 @@ public class PlayerMove : MonoBehaviour
             gravity.y = -9.8f;
         }
         obstacleEnemy();
+
+        directionBall();
+    }
+
+    private void directionBall()
+    {
+        if (m_ball)
+        {
+            Vector3 dirBall = g_direction.transform.position - m_ball.transform.position;
+            dirBall.y = 0;
+            g_direction.transform.rotation = Quaternion.LookRotation(dirBall.normalized);
+        }
+        
     }
 
     public void obstacleEnemy()
@@ -145,6 +159,10 @@ public class PlayerMove : MonoBehaviour
         delta = obj.ReadValue<Vector2>();
         motion = new Vector3(delta.x, 0, delta.y);
         controller.Move(motion * 0.01f * playerSpeed);
+        if (haveBall)
+        {
+            dirBallRender.SetActive(true);
+        }
     }
 
     private void OnDisable()
@@ -202,9 +220,6 @@ public class PlayerMove : MonoBehaviour
         m_ball = Instantiate(ballTohammer, gameObject.transform.position + new Vector3(1.0f, 1.5f, -3.0f), Quaternion.identity);
         m_ball.transform.GetComponent<ColliderBall>().tag = "Player";
 
-        Rigidbody rb = m_ball.GetComponent<Rigidbody>();
-        rb.AddForce(transform.up * 1000);
-
         m_ball.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         m_ball.GetComponent<Rigidbody>().isKinematic = true;
     }
@@ -215,13 +230,15 @@ public class PlayerMove : MonoBehaviour
     {
         if (haveBall)
         {
-            direction = ((EndPos - StartPos) + new Vector3(2, 0, 10)).normalized;
+            direction = (EndPos - StartPos).normalized;
             m_ball.GetComponent<Rigidbody>().AddForce(direction * ballSpeed, ForceMode.Impulse);
             m_animator.SetBool("isRunning", true);
             haveBall = false;
             FindObjectOfType<AudioManager>().Play("throw");
+            dirBallRender.SetActive(false);
         }
     }
+
 
     //lấy quả bóng được lưu trong máy tính ra
     void activeBall()

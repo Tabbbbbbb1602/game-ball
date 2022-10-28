@@ -28,7 +28,7 @@ public class LevelManager : Singleton<LevelManager>
         if (!PlayerPrefs.HasKey(PrefConst.COIN_KEY))
             Pref.Coins = 10000;
 
-        ActivePlayer();
+        //ActivePlayer();
         GUIManager.Ins.UpdateCoins();
     }
 
