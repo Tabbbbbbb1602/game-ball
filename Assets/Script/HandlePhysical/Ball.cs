@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class Ball : MonoBehaviour
 {
     Transform enemy;
     private Rigidbody rb;
+    [SerializeField] private Strigger strigger;
 
     Vector3 lastVelocity;
 
     public float PowEnemy;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -29,13 +28,16 @@ public class Ball : MonoBehaviour
         var direction = Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
 
         rb.velocity = direction * Mathf.Max(speed, 0f);
-
-        /*  if (collision.gameObject.tag == "ObstaclePlayer")
-          {
-              Debug.Log("abc");
-              Destroy(collision.gameObject);
-          }*/
-
+    }
+    
+    public void changeWeapon(GameObject w)
+    {
+        Destroy(strigger.gameObject);
+        GameObject wp = Instantiate(w, transform.position, transform.rotation);
+        wp.transform.SetParent(transform);
+        strigger = wp.GetComponent<Strigger>();
+        Debug.Log(rb);
+        strigger.rigidbodyParent = rb;
     }
 }
 

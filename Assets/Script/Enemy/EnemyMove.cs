@@ -11,7 +11,7 @@ public class EnemyMove : MonoBehaviour
     public float PowEnemy;
 
     //check have ball
-    private bool haveBall;
+    public bool haveBall;
     public GameObject enemyPrefab;
 
     //move random enemy
@@ -31,7 +31,6 @@ public class EnemyMove : MonoBehaviour
 
 
     private GameObject countObstaclePlayer;
-    private Vector3 directionEnemy;
 
     Animator m_animator;
 
@@ -42,6 +41,10 @@ public class EnemyMove : MonoBehaviour
     public static event Action OnEnemyDead;
 
     private NavMeshAgent navMeshAgent;
+
+    //
+    private float countDown = 2.0f;
+    public AbsShootingAndThrowBall shootingAndThrowBall;
 
     void Start()
     {
@@ -54,6 +57,7 @@ public class EnemyMove : MonoBehaviour
     private void OnEnable()
     {
         UIManager.Ins.OnEnemyLose.AddListener(enemyLose);
+        AbsShootingAndThrowBall.OnChupBanh += OnChupBanh;
     }
 
     private void enemyLose()
@@ -66,17 +70,18 @@ public class EnemyMove : MonoBehaviour
     private void OnDisable()
     {
         UIManager.Ins.OnEnemyLose.AddListener(enemyLose);
-    }
-
-    private void Update()
-    {
-        obstaclePlayer();
+        AbsShootingAndThrowBall.OnChupBanh -= OnChupBanh;
     }
     private void Awake()
     {
         m_animator = gameObject.GetComponent<Animator>();
         m_animator.SetBool("isRunning", true);
-        //SetIsTriggerTurnOn();
+        shootingAndThrowBall = GetComponent<AbsShootingAndThrowBall>();
+    }
+
+    private void Update()
+    {
+        obstaclePlayer();
     }
 
     public void obstaclePlayer()
@@ -93,7 +98,26 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnChupBanh(Transform shooter)
+    {
+        if(shooter.Equals(transform))
+        {
+            StartCoroutine(NemBanh());
+        }
+    }
+
+    IEnumerator NemBanh()
+    {
+        int index = UnityEngine.Random.Range(0, countObstaclePlayer.transform.childCount);
+        Transform target = countObstaclePlayer.transform.GetChild(index);
+        Vector3 directionEnemy = target.position - PosBall.transform.position;
+        directionEnemy.x = UnityEngine.Random.Range(directionEnemy.x - 10f, directionEnemy.x + 10f);
+        directionEnemy.z = UnityEngine.Random.Range(directionEnemy.z - 10f, directionEnemy.z + 10f);
+        yield return new WaitForSeconds(1.0f);
+        shootingAndThrowBall.nem(directionEnemy);
+    }
+
+   /* private void OnCollisionEnter(Collision collision)
     {
 
         if(collision.gameObject.tag == "Hammer")
@@ -112,18 +136,18 @@ public class EnemyMove : MonoBehaviour
 
             //SetIsTriggerTurnOn();
         }
-    }
+    }*/
 
-    void spawnBall()
+  /*  void spawnBall()
     {
         copyBall = Instantiate(Ball, gameObject.transform.position + new Vector3(1.0f, 1.5f, 3.0f), Quaternion.identity);
         copyBall.transform.GetComponent<ColliderBall>().tag = "Enemy";
         copyBall.GetComponent<Rigidbody>().isKinematic = true;
         copyBall.GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
         //copyBall.GetComponent<SphereCollider>().isTrigger = true;
-    }
+    }*/
 
-    IEnumerator ThrowEnemy(float waitTime)
+    /*IEnumerator ThrowEnemy(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         if (haveBall)
@@ -131,20 +155,20 @@ public class EnemyMove : MonoBehaviour
             //random hướng ném giữa các vật thể
             int index = UnityEngine.Random.Range(0, countObstaclePlayer.transform.childCount);
             Transform target = countObstaclePlayer.transform.GetChild(index);
-            directionEnemy = target.position - copyBall.transform.position;
+            directionEnemy = target.position - PosBall.transform.position;
             directionEnemy.x = UnityEngine.Random.Range(directionEnemy.x - 10f, directionEnemy.x + 10f);
             directionEnemy.z = UnityEngine.Random.Range(directionEnemy.z - 10f, directionEnemy.z + 10f);
-            copyBall.GetComponent<Rigidbody>().isKinematic = false;
+            //copyBall.GetComponent<Rigidbody>().isKinematic = false;
 
             //thực hiện ném
-            copyBall.GetComponent<Rigidbody>().AddForce(directionEnemy.normalized * PowEnemy, ForceMode.VelocityChange);
-            StartCoroutine(SetIsTrigger(1.0f));
-            m_animator.SetBool("isRunning", true);
+            PosBall.GetComponent<Rigidbody>().AddForce(directionEnemy.normalized * 100, ForceMode.VelocityChange);
+            //StartCoroutine(SetIsTrigger(1.0f));
+            //m_animator.SetBool("isRunning", true);
             haveBall = false;
 
-            navMeshAgent.enabled = true;
+            //navMeshAgent.enabled = true;
         }
-    }
+    }*/
 
     IEnumerator SetIsTrigger(float waitTime)
     {
