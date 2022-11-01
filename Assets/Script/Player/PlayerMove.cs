@@ -68,7 +68,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Start()
     {
-        
+        countObstacleEnemy = GameObject.Find("ObstacleEnemy");
     }
     private void OnEnable()
     {
@@ -84,17 +84,23 @@ public class PlayerMove : MonoBehaviour
 
     private void combo(Transform shooter)
     {
-        int count = 1;
+        int count = 3;
         counter = !shooter.Equals(transform) ? 0 : counter + 1;
 
         if (counter == count)
         {
             PosBall.GetComponent<Ball>().changeWeapon(Hammer);
-            Debug.Log("Combo di ban ei");
+            slider.value = counter;
+            counter = 0;
         } else if (counter > count)
         {
             PosBall.GetComponent<Ball>().changeWeapon(Ball);
+            slider.value = counter;
             counter = 0;
+        }else if(counter < count)
+        {
+            PosBall.GetComponent<Ball>().changeWeapon(Ball);
+            slider.value = counter;
         }
 
     }
@@ -111,7 +117,7 @@ public class PlayerMove : MonoBehaviour
         {
             gravity.y = -9.8f;
         }
-        //obstacleEnemy();
+        obstacleEnemy();
 
         directionBall();
     }
@@ -129,14 +135,10 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-       /* if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
         {
             int activeScene = SceneManager.GetActiveScene().buildIndex;
             PlayerPrefs.SetInt("LevelSaved", activeScene);
-            GameObject gameObjCube = GameObject.FindGameObjectWithTag("Cube");
-            GameObject gameObjHammer = GameObject.FindGameObjectWithTag("Hammer");
-            Destroy(gameObjHammer);
-            Destroy(gameObjCube);
             Instantiate(partialVictory, transform.position, transform.rotation);
             isVictory = true;
             m_animator.SetBool("isRunning", false);
@@ -147,7 +149,7 @@ public class PlayerMove : MonoBehaviour
 
             winGamePosition = new Vector3(0, 180, 0);
             transform.eulerAngles = winGamePosition;
-        }*/
+        }
     }
 
     private void playerLose()
@@ -177,10 +179,10 @@ public class PlayerMove : MonoBehaviour
         delta = obj.ReadValue<Vector2>();
         motion = new Vector3(delta.x, 0, delta.y);
         controller.Move(motion * 0.01f * playerSpeed);
-        if (haveBall)
+        /*if (haveBall)
         {
             dirBallRender.SetActive(true);
-        }
+        }*/
     }
 
     private void OnDisable()
@@ -191,54 +193,6 @@ public class PlayerMove : MonoBehaviour
         UIManager.Ins.OnPlayerLose.AddListener(playerLose);
         inputs.Disable();
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        /*if(collision.gameObject.tag == "Ball")
-        {
-            Debug.Log("abc");
-            haveBall = true;
-        }
-        Debug.Log("abc");*/
-       /* if (collision.gameObject.tag == "Cube")
-        {
-            if (collision.gameObject.GetComponent<ColliderBall>().tag == "Player")
-            {
-                ballTohammer = Ball;
-                count += 1;
-                if (count == 3)
-                {
-                    ballTohammer = Hammer;
-                }
-                slider.value = count;
-            }
-            else
-            {
-                //neu cham khac enemy thi reset xuong 1
-                count = 0;
-                ballTohammer = Ball;
-                slider.value = count;
-            }
-
-            m_animator.SetBool("isRunning", false);
-            Destroy(collision.gameObject);
-            haveBall = true;
-            //spawnBall();
-        }
-
-        if (collision.gameObject.tag == "Hammer")
-        {
-            count = 0;
-            slider.value = count;
-            ballTohammer = Ball;
-            m_animator.SetBool("isRunning", false);
-            Destroy(collision.gameObject);
-            haveBall = true;
-            //spawnBall();
-        }*/
-    }
-
-
 
     //lấy quả bóng được lưu trong máy tính ra
    /* void activeBall()

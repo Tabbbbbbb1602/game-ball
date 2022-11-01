@@ -36,7 +36,6 @@ public class Ball : MonoBehaviour
         GameObject wp = Instantiate(w, transform.position, transform.rotation);
         wp.transform.SetParent(transform);
         strigger = wp.GetComponent<Strigger>();
-        Debug.Log(rb);
         strigger.rigidbodyParent = rb;
     }
 }
