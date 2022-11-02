@@ -10,10 +10,11 @@ public abstract class AbsShootingAndThrowBall: MonoBehaviour
     public static event Action<Transform> OnChupBanh;
     public static event Action OnNemBanh;
 
-    public void chup(Transform ball, Rigidbody rigidbody, Transform shooter)
+
+    public void chup(Transform shooter)
     {
         OnChupBanh?.Invoke(shooter);
-        chupbanh( ball, rigidbody);
+        chupbanh();
     }
 
     public void nem(Vector3 force)
@@ -22,6 +23,6 @@ public abstract class AbsShootingAndThrowBall: MonoBehaviour
         nembanh(force);
     }
 
-    protected abstract void chupbanh(Transform ball, Rigidbody rigidbody);
+    protected abstract void chupbanh();
     protected abstract void nembanh(Vector3 force);
 }

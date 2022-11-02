@@ -53,6 +53,7 @@ public class PlayerMove : MonoBehaviour
 
     public Slider slider;
     public GameObject dirBallRender;
+    private int HashVelocity;
 
     private void Awake()
     {
@@ -60,7 +61,7 @@ public class PlayerMove : MonoBehaviour
         inputs = new TouchInput();
         m_animator = gameObject.GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
-        m_animator.SetBool("isRunning", false);
+        HashVelocity = Animator.StringToHash("Velocity");
         PosBall.transform.GetComponent<ColliderBall>().tag = "Player";
 
         shootingAndThrowBall = GetComponent<AbsShootingAndThrowBall>();
@@ -84,24 +85,18 @@ public class PlayerMove : MonoBehaviour
 
     private void combo(Transform shooter)
     {
-        int count = 3;
+        int count = 2;
         counter = !shooter.Equals(transform) ? 0 : counter + 1;
 
         if (counter == count)
         {
             PosBall.GetComponent<Ball>().changeWeapon(Hammer);
-            slider.value = counter;
-            counter = 0;
-        } else if (counter > count)
+        } else if(counter > count)
         {
-            PosBall.GetComponent<Ball>().changeWeapon(Ball);
-            slider.value = counter;
             counter = 0;
-        }else if(counter < count)
-        {
             PosBall.GetComponent<Ball>().changeWeapon(Ball);
-            slider.value = counter;
         }
+        //slider.value = counter;
 
     }
 
@@ -109,17 +104,17 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        HandleAnimtion();
         if (!controller.isGrounded)
         {
             gravity.y -= 9.8f;
-            controller.Move(gravity * Time.deltaTime);
         } else
         {
             gravity.y = -9.8f;
         }
         obstacleEnemy();
 
-        directionBall();
+        //directionBall();
     }
 
     private void directionBall()
@@ -178,7 +173,9 @@ public class PlayerMove : MonoBehaviour
     {
         delta = obj.ReadValue<Vector2>();
         motion = new Vector3(delta.x, 0, delta.y);
-        controller.Move(motion * 0.01f * playerSpeed);
+        controller.Move(motion * 0.01f * playerSpeed + gravity);
+        Vector3 velocity = controller.velocity;
+        Debug.Log(delta);
         /*if (haveBall)
         {
             dirBallRender.SetActive(true);
@@ -194,17 +191,26 @@ public class PlayerMove : MonoBehaviour
         inputs.Disable();
     }
 
-    //lấy quả bóng được lưu trong máy tính ra
-   /* void activeBall()
+    private void HandleAnimtion()
     {
-        if (m_ball)
-            Destroy(m_ball.gameObject);
+        Vector3 velocity = controller.velocity;
+        velocity.y = 0;
+        float v = velocity.magnitude;
+        v = Math.Clamp(v, 0, 1);
+        m_animator.SetFloat(HashVelocity, v);
+    }
+
+    //lấy quả bóng được lưu trong máy tính ra
+    void activeBall()
+    {
+        if (Ball)
+            Destroy(Ball.gameObject);
 
         GameObject newBallerPrefab = ShopManager.Ins.itemsBall[Pref.CurBallId].BallPb;
 
         if (newBallerPrefab)
         {
-            m_ball = Instantiate(newBallerPrefab, new Vector3(1.0f, 1.0f, -30.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
+            Ball = Instantiate(newBallerPrefab, new Vector3(0f, 1.0f, -16.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
         }
-    }*/
+    }
 }

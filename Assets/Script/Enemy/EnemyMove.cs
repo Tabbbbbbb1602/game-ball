@@ -40,12 +40,23 @@ public class EnemyMove : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     public AbsShootingAndThrowBall shootingAndThrowBall;
 
+    private Transform target;
+
+    private bool isRot;
+
+    private Animator animator;
+    private int hashVelocity;
+
     void Start()
     {
         //StartCoroutine(MoveEnemy(2.0f));
         haveBall = false;
         countObstaclePlayer = GameObject.Find("ObstaclePlayer");
         navMeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        hashVelocity = Animator.StringToHash("Velocity");
+        StartCoroutine(MoveEnemyOne(2.0f));
+
     }
 
     private void OnEnable()
@@ -75,7 +86,22 @@ public class EnemyMove : MonoBehaviour
 
     private void Update()
     {
+        float v = agent.velocity.magnitude / agent.speed;
+        animator.SetFloat(hashVelocity, v);
         obstaclePlayer();
+        if(isRot)
+        {
+            Quaternion rotLockAt = Quaternion.LookRotation(target.position - transform.position);
+            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, rotLockAt, 5f * Time.deltaTime);
+            if(Quaternion.Angle(rotLockAt, transform.rotation) <= 1f) {
+                Vector3 directionEnemy = target.position - PosBall.transform.position;
+                directionEnemy.x = UnityEngine.Random.Range(directionEnemy.x - 10f, directionEnemy.x + 10f);
+                directionEnemy.z = UnityEngine.Random.Range(directionEnemy.z - 10f, directionEnemy.z + 10f);
+                shootingAndThrowBall.nem(directionEnemy);
+                navMeshAgent.SetDestination(transform.position);
+                isRot = false;
+            }
+        }
     }
 
     public void obstaclePlayer()
@@ -83,9 +109,8 @@ public class EnemyMove : MonoBehaviour
         if(countObstaclePlayer.transform.childCount == 0)
         {
             UIManager.Ins.loseGame();
-            navMeshAgent.enabled = false;
-            m_animator.SetBool("isRunning", false);
-            m_animator.SetBool("isVictory", true);
+            navMeshAgent.ResetPath();
+            navMeshAgent.SetDestination(transform.position);
             UIManager.Ins.playerLose();
         }
     }
@@ -94,25 +119,13 @@ public class EnemyMove : MonoBehaviour
     {
         if(shooter.Equals(transform))
         {
-            StartCoroutine(NemBanh());
-            navMeshAgent.enabled = false;
-            m_animator.SetBool("isRunning", false);
+            int index = UnityEngine.Random.Range(0, countObstaclePlayer.transform.childCount);
+            target = countObstaclePlayer.transform.GetChild(index);
+            isRot = true;
+            navMeshAgent.ResetPath();
         }
     }
 
-    IEnumerator NemBanh()
-    {
-        int index = UnityEngine.Random.Range(0, countObstaclePlayer.transform.childCount);
-        Transform target = countObstaclePlayer.transform.GetChild(index);
-        Vector3 directionEnemy = target.position - PosBall.transform.position;
-        directionEnemy.x = UnityEngine.Random.Range(directionEnemy.x - 10f, directionEnemy.x + 10f);
-        directionEnemy.z = UnityEngine.Random.Range(directionEnemy.z - 10f, directionEnemy.z + 10f);
-        yield return new WaitForSeconds(0.5f);
-        shootingAndThrowBall.nem(directionEnemy);
-        navMeshAgent.enabled = true;
-        m_animator.SetBool("isRunning", true);
-        transform.LookAt(target);
-    }
 
     //gọi event khi object bị hủy
     private void OnDestroy()
@@ -120,6 +133,17 @@ public class EnemyMove : MonoBehaviour
         OnEnemyDead?.Invoke();
     }
 
-    
 
+    IEnumerator MoveEnemyOne(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        xPos = UnityEngine.Random.Range(-15.0f, 14.5f);
+        zPos = UnityEngine.Random.Range(8.0f, 25.0f);
+        position = new Vector3(xPos, 0.5f, zPos);
+        if(!isRot)
+        {
+            agent.SetDestination(position);
+        }
+        StartCoroutine(MoveEnemyOne(2.0f));
+    }
 }

@@ -8,10 +8,8 @@ public class HandleEnemy : AbsShootingAndThrowBall
     {
         isHaveBall = false;
     }
-    protected override void chupbanh(Transform ball, Rigidbody rigidbody)
+    protected override void chupbanh()
     {
-        _ball = ball;
-        RbBall = rigidbody;
         isHaveBall = true;
         RbBall.velocity = Vector3.zero;
         RbBall.GetComponent<ColliderBall>().tag = "Enemy";
@@ -19,7 +17,7 @@ public class HandleEnemy : AbsShootingAndThrowBall
 
     protected override void nembanh(Vector3 direction)
     {
-        float force = 4000f;
+        float force = 2000f;
         if (isHaveBall)
         {
             RbBall.AddForce(direction.normalized * force);

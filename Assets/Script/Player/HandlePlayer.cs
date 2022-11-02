@@ -11,19 +11,17 @@ public class HandlePlayer : AbsShootingAndThrowBall
         isHaveBall = true;
         m_animator = gameObject.GetComponent<Animator>();
     }
-    protected override void chupbanh(Transform ball, Rigidbody rigidbody)
+    protected override void chupbanh()
     {
-        _ball = ball;
         isHaveBall = true;
-        RbBall = rigidbody;
-        rigidbody.velocity = Vector3.zero;
+        RbBall.velocity = Vector3.zero;
         m_animator.SetBool("isRunning", false);
         RbBall.GetComponent<ColliderBall>().tag = "Player";
     }
 
     protected override void nembanh(Vector3 direction)
     {
-        float force = 4000f;
+        float force = 2000f;
         if(isHaveBall)
         {
             RbBall.AddForce(direction.normalized * force);

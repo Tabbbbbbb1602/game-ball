@@ -11,6 +11,15 @@ public class MoveEnemy : MonoBehaviour
 
     //move random enemy
     public NavMeshAgent agent;
+    private Animator animator;
+    private int hashVelocity;
+
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        hashVelocity = Animator.StringToHash("Velocity");
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +30,8 @@ public class MoveEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        float v = agent.velocity.magnitude/agent.speed;
+        animator.SetFloat(hashVelocity, v);
     }
 
     IEnumerator MoveEnemyOne(float waitTime)

@@ -32,7 +32,10 @@ public class Ball : MonoBehaviour
     
     public void changeWeapon(GameObject w)
     {
-        Destroy(strigger.gameObject);
+        if(strigger != null)
+        {
+            Destroy(strigger.gameObject);
+        }
         GameObject wp = Instantiate(w, transform.position, transform.rotation);
         wp.transform.SetParent(transform);
         strigger = wp.GetComponent<Strigger>();

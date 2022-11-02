@@ -23,7 +23,7 @@ public class Hammer : Strigger
 
             if (other.gameObject.TryGetComponent(out AbsShootingAndThrowBall shootingAndThrowBall))
             {
-                shootingAndThrowBall.chup(transform, rigidbodyParent, other.transform);
+                shootingAndThrowBall.chup(other.transform);
             }
 
             preLayer = other.gameObject.layer;
