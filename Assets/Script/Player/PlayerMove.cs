@@ -114,6 +114,10 @@ public class PlayerMove : MonoBehaviour
         }
         obstacleEnemy();
 
+        EndPos = transform.position;
+        direction = (EndPos - StartPos).normalized;
+        Debug.DrawRay(transform.position, direction * 10, Color.red);
+
         //directionBall();
     }
 
@@ -166,6 +170,7 @@ public class PlayerMove : MonoBehaviour
     {
         EndPos = transform.position;
         direction = (EndPos - StartPos).normalized;
+        Debug.DrawRay(transform.position, direction, Color.red);
         shootingAndThrowBall.nem(direction);
     }
 
@@ -175,7 +180,7 @@ public class PlayerMove : MonoBehaviour
         motion = new Vector3(delta.x, 0, delta.y);
         controller.Move(motion * 0.01f * playerSpeed + gravity);
         Vector3 velocity = controller.velocity;
-        Debug.Log(delta);
+        //Debug.Log(delta);
         /*if (haveBall)
         {
             dirBallRender.SetActive(true);

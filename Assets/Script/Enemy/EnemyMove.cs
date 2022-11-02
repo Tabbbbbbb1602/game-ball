@@ -89,11 +89,17 @@ public class EnemyMove : MonoBehaviour
         float v = agent.velocity.magnitude / agent.speed;
         animator.SetFloat(hashVelocity, v);
         obstaclePlayer();
-        if(isRot)
+        nem();
+    }
+
+    public void nem()
+    {
+        if (isRot)
         {
             Quaternion rotLockAt = Quaternion.LookRotation(target.position - transform.position);
             transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, rotLockAt, 5f * Time.deltaTime);
-            if(Quaternion.Angle(rotLockAt, transform.rotation) <= 1f) {
+            if (Quaternion.Angle(rotLockAt, transform.rotation) <= 1f)
+            {
                 Vector3 directionEnemy = target.position - PosBall.transform.position;
                 directionEnemy.x = UnityEngine.Random.Range(directionEnemy.x - 10f, directionEnemy.x + 10f);
                 directionEnemy.z = UnityEngine.Random.Range(directionEnemy.z - 10f, directionEnemy.z + 10f);
