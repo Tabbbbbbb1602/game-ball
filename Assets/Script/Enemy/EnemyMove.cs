@@ -61,36 +61,37 @@ public class EnemyMove : MonoBehaviour
 
     private void OnEnable()
     {
-        UIManager.Ins.OnEnemyVictory.AddListener(enemyVictory);
-        UIManager.Ins.OnPlayerLose.AddListener(playerLose);
         AbsShootingAndThrowBall.OnChupBanh += OnChupBanh;
+        UIManager.Ins.OnEnemyVictory.AddListener(enemyVictory);
+        UIManager.Ins.OnEnemyLose.AddListener(enemyLose);
     }
 
     private void enemyLose()
     {
-        navMeshAgent.ResetPath();
-        //navMeshAgent.enabled = false;
+        /*navMeshAgent.ResetPath();
+        navMeshAgent.enabled = false;
+        transform.GetComponent<EnemyMove>().enabled = false;
+        animator.SetFloat(hashVelocity, 0);*/
         /* m_animator.SetBool("isRunning", false);
          m_animator.SetBool("isLose", true);*/
-
+        //gameObject.SetActive(false);
+        Debug.Log("Enemy lose");
     }
 
     private void OnDisable()
     {
         UIManager.Ins.OnEnemyVictory.RemoveListener(enemyVictory);
-        UIManager.Ins.OnPlayerLose.RemoveListener(playerLose);
         AbsShootingAndThrowBall.OnChupBanh -= OnChupBanh;
+        UIManager.Ins.OnEnemyLose.RemoveListener(enemyLose);
     }
 
     void enemyVictory()
     {
-        //Debug.Log("enemyVictory");
+        Debug.Log("enemyVictory");
+        //gameObject.SetActive(false);
     }
 
-    void playerLose()
-    {
-        //Debug.Log("playerLose");
-    }
+    
     private void Awake()
     {
         m_animator = gameObject.GetComponent<Animator>();

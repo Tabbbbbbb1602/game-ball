@@ -29,11 +29,6 @@ public class GameManager : Singleton<GameManager>
         Destroy(gameObjCube);
     }
 
-   /* public void win()
-    {
-        OnWin?.Invoke();
-    }*/
-
     public void ActivePlayer()
     {
         if (m_player)
@@ -43,9 +38,10 @@ public class GameManager : Singleton<GameManager>
 
         if (newPlayerPrefab)
         {
-            m_player = Instantiate(newPlayerPrefab, new Vector3(0.0f, 13.0f, 60.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
+            m_player = Instantiate(newPlayerPrefab, new Vector3(0.0f, 13.0f, 60.0f), Quaternion.Euler(new Vector3(0.0f, 180.0f, 0.0f)));
             m_player.GetComponent<CharacterController>().enabled = false;
             m_player.GetComponent<PlayerMove>().enabled = false;
+            m_player.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         }
 
     }
@@ -60,6 +56,8 @@ public class GameManager : Singleton<GameManager>
         if (newBallerPrefab)
         {
             m_baller = Instantiate(newBallerPrefab, new Vector3(-1.46f, 14.23f, 60.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
+            m_baller.transform.localScale  = new Vector3(0.5f, 0.5f, 0.5f);
+            //m_baller.transform.position = new Vector3(-1.46f, 13.60f, 60.0f);
         }
     }
 }
