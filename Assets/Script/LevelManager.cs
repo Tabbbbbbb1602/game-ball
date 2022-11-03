@@ -8,10 +8,10 @@ using Cinemachine;
 //thuc hien viec sinh ra player va ball o moi man choi
 public class LevelManager : Singleton<LevelManager>
 {
-    public CinemachineVirtualCamera cinemachineVirtualCamera;
+    /*public CinemachineVirtualCamera cinemachineVirtualCamera;
     Player m_player;
 
-    GameObject m_ball;
+    GameObject m_ball;*/
 
 
 
@@ -32,7 +32,7 @@ public class LevelManager : Singleton<LevelManager>
         GUIManager.Ins.UpdateCoins();
     }
 
-    public void ActivePlayer()
+   /* public void ActivePlayer()
     {
         if (m_player)
             Destroy(m_player.gameObject);
@@ -50,6 +50,6 @@ public class LevelManager : Singleton<LevelManager>
             cinemachineVirtualCamera.LookAt = m_player.transform;
         }
 
-    }
+    }*/
    
 }

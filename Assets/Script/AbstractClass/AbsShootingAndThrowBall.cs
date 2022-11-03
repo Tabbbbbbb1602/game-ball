@@ -10,7 +10,6 @@ public abstract class AbsShootingAndThrowBall: MonoBehaviour
     public static event Action<Transform> OnChupBanh;
     public static event Action OnNemBanh;
 
-
     public void chup(Transform shooter)
     {
         OnChupBanh?.Invoke(shooter);

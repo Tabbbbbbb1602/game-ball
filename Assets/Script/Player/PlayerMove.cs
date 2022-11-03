@@ -19,7 +19,8 @@ public class PlayerMove : MonoBehaviour
     private CharacterController controller;
 
     public Transform PosBall;
-    public GameObject Ball;
+    [SerializeField]
+    private GameObject Ball;
     public GameObject Hammer;
 
     public bool haveBall;
@@ -41,8 +42,6 @@ public class PlayerMove : MonoBehaviour
 
     private int counter = 0;
 
-    private GameObject ballTohammer;
-
     public GameObject g_direction;
 
     GameObject m_ball;
@@ -55,17 +54,19 @@ public class PlayerMove : MonoBehaviour
     public GameObject dirBallRender;
     private int HashVelocity;
 
+    private GameObject newBallerPrefab;
+
     private void Awake()
     {
+        //activeBall();
         haveBall = true;
         inputs = new TouchInput();
         m_animator = gameObject.GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         HashVelocity = Animator.StringToHash("Velocity");
-        PosBall.transform.GetComponent<ColliderBall>().tag = "Player";
-
         shootingAndThrowBall = GetComponent<AbsShootingAndThrowBall>();
-        //activeBall();
+        newBallerPrefab = ShopManager.Ins.itemsBall[Pref.CurBallId].BallPb;
+        PosBall = GameObject.FindGameObjectWithTag("Ball").transform;
     }
     private void Start()
     {
@@ -94,9 +95,9 @@ public class PlayerMove : MonoBehaviour
         } else if(counter > count)
         {
             counter = 0;
-            PosBall.GetComponent<Ball>().changeWeapon(Ball);
+            PosBall.GetComponent<Ball>().changeWeapon(newBallerPrefab);
         }
-        //slider.value = counter;
+        slider.value = counter;
 
     }
 
@@ -203,19 +204,5 @@ public class PlayerMove : MonoBehaviour
         float v = velocity.magnitude;
         v = Math.Clamp(v, 0, 1);
         m_animator.SetFloat(HashVelocity, v);
-    }
-
-    //lấy quả bóng được lưu trong máy tính ra
-    void activeBall()
-    {
-        if (Ball)
-            Destroy(Ball.gameObject);
-
-        GameObject newBallerPrefab = ShopManager.Ins.itemsBall[Pref.CurBallId].BallPb;
-
-        if (newBallerPrefab)
-        {
-            Ball = Instantiate(newBallerPrefab, new Vector3(0f, 1.0f, -16.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
-        }
     }
 }

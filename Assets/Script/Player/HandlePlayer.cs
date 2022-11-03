@@ -10,6 +10,7 @@ public class HandlePlayer : AbsShootingAndThrowBall
     {
         isHaveBall = true;
         m_animator = gameObject.GetComponent<Animator>();
+        GameObject ball = GameObject.FindGameObjectWithTag("Ball");
     }
     protected override void chupbanh()
     {

@@ -27,7 +27,7 @@ public class LoadScene : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("Scenes/Game");
+            SceneManager.LoadScene("Scenes/New Scene");
         }
     }
 }

@@ -10,7 +10,8 @@ public class Ball : MonoBehaviour
     Vector3 lastVelocity;
 
     public float PowEnemy;
-    void Start()
+
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         enemy = gameObject.GetComponent<Transform>();
