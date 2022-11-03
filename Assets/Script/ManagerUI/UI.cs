@@ -42,8 +42,8 @@ public class UI : MonoBehaviour
     {
         inputs.Enable();
         inputs.touch.touchpos.performed += StartThrow;
-        UIManager.Ins.OnVictory.AddListener(victoryGame);
-        UIManager.Ins.OnLose.AddListener(loseGames);
+        UIManager.Ins.OnPlayerVictory.AddListener(victoryGame);
+        UIManager.Ins.OnPlayerLose.AddListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.AddListener(changeTextCoins);
     }
 

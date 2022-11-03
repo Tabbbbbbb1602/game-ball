@@ -23,8 +23,8 @@ public class CameraManager : MonoBehaviour
 
     private void OnEnable()
     {
-        UIManager.Ins.OnVictory.AddListener(victoryGameCamera);
-        UIManager.Ins.OnLose.AddListener(loseGameCamera);
+        UIManager.Ins.OnPlayerVictory.AddListener(victoryGameCamera);
+        UIManager.Ins.OnPlayerLose.AddListener(loseGameCamera);
     }
 
     private void loseGameCamera()

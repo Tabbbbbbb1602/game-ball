@@ -61,26 +61,39 @@ public class EnemyMove : MonoBehaviour
 
     private void OnEnable()
     {
-        UIManager.Ins.OnEnemyLose.AddListener(enemyLose);
+        UIManager.Ins.OnEnemyVictory.AddListener(enemyVictory);
+        UIManager.Ins.OnPlayerLose.AddListener(playerLose);
         AbsShootingAndThrowBall.OnChupBanh += OnChupBanh;
     }
 
     private void enemyLose()
     {
-        navMeshAgent.enabled = false;
-        m_animator.SetBool("isRunning", false);
-        m_animator.SetBool("isLose", true);
+        navMeshAgent.ResetPath();
+        //navMeshAgent.enabled = false;
+        /* m_animator.SetBool("isRunning", false);
+         m_animator.SetBool("isLose", true);*/
+
     }
 
     private void OnDisable()
     {
-        UIManager.Ins.OnEnemyLose.AddListener(enemyLose);
+        UIManager.Ins.OnEnemyVictory.RemoveListener(enemyVictory);
+        UIManager.Ins.OnPlayerLose.RemoveListener(playerLose);
         AbsShootingAndThrowBall.OnChupBanh -= OnChupBanh;
+    }
+
+    void enemyVictory()
+    {
+        //Debug.Log("enemyVictory");
+    }
+
+    void playerLose()
+    {
+        //Debug.Log("playerLose");
     }
     private void Awake()
     {
         m_animator = gameObject.GetComponent<Animator>();
-        m_animator.SetBool("isRunning", true);
         shootingAndThrowBall = GetComponent<AbsShootingAndThrowBall>();
     }
 
@@ -112,12 +125,12 @@ public class EnemyMove : MonoBehaviour
 
     public void obstaclePlayer()
     {
-        if(countObstaclePlayer.transform.childCount == 0)
+        if(countObstaclePlayer.transform.childCount == 2)
         {
-            UIManager.Ins.loseGame();
             navMeshAgent.ResetPath();
-            navMeshAgent.SetDestination(transform.position);
             UIManager.Ins.playerLose();
+            UIManager.Ins.enemyVictory();
+            PosBall.gameObject.SetActive(false);
         }
     }
 

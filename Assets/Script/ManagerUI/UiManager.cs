@@ -10,30 +10,29 @@ public class UIManager : Singleton<UIManager>
     public UnityEvent OnPlayerVictory = new UnityEvent();
     public UnityEvent OnPlayerLose = new UnityEvent();
     public UnityEvent OnEnemyLose = new UnityEvent();
+    public UnityEvent OnEnemyVictory = new UnityEvent();
     public UnityEvent OnChangeTextCoins = new UnityEvent();
 
     // Start is called before the first frame update
-
-    //phat su kien win game
-    public void winGame()
-    {
-        OnVictory?.Invoke();
-    }
-
-    //phat su kien lose game
-    public void loseGame()
-    {
-        OnLose?.Invoke();
-    }
 
     public void playerLose()
     {
         OnPlayerLose?.Invoke();
     }
 
+    public void playerVictory()
+    {
+        OnPlayerVictory?.Invoke();
+    }
+
     public void enemyLose()
     {
         OnEnemyLose?.Invoke();
+    }
+
+    public void enemyVictory()
+    {
+        OnEnemyVictory?.Invoke();
     }
 
     public void changeTextCoins()

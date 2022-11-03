@@ -56,6 +56,10 @@ public class PlayerMove : MonoBehaviour
 
     private GameObject newBallerPrefab;
 
+    public GameObject cameraWin;
+
+    public GameObject characterVictory;
+
     private void Awake()
     {
         //activeBall();
@@ -78,6 +82,7 @@ public class PlayerMove : MonoBehaviour
         inputs.touch.touchhold.started += StartThrow;
         inputs.touch.touchhold.canceled += EndThrow;
         UIManager.Ins.OnPlayerLose.AddListener(playerLose);
+        UIManager.Ins.OnPlayerVictory.AddListener(playerVictory);
         AbsShootingAndThrowBall.OnChupBanh += combo;
         inputs.Enable();
 
@@ -135,36 +140,46 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
         {
             int activeScene = SceneManager.GetActiveScene().buildIndex;
             PlayerPrefs.SetInt("LevelSaved", activeScene);
             Instantiate(partialVictory, transform.position, transform.rotation);
             isVictory = true;
-            m_animator.SetBool("isRunning", false);
-            m_animator.SetBool("IsVictory", true);
-
-            UIManager.Ins.winGame();
+            /*m_animator.SetBool("isRunning", false);
+            m_animator.SetBool("IsVictory", true);*/
+            UIManager.Ins.playerVictory();
             UIManager.Ins.enemyLose();
+            PosBall.gameObject.SetActive(false);
+            slider.value = 0;
 
-            winGamePosition = new Vector3(0, 180, 0);
-            transform.eulerAngles = winGamePosition;
+           /* winGamePosition = new Vector3(0, 180, 0);
+            transform.eulerAngles = winGamePosition;*/
         }
     }
 
     private void playerLose()
     {
-        winGamePosition = new Vector3(0, 180, 0);
-        transform.eulerAngles = winGamePosition;
-        m_animator.SetBool("isRunning", false);
-        m_animator.SetBool("IsLose", true);
+        /*winGamePosition = new Vector3(0, 180, 0);
+        transform.eulerAngles = winGamePosition;*/
+        /* m_animator.SetBool("isRunning", false);
+         m_animator.SetBool("IsLose", true);*/
+        Debug.Log("player Lose");
     }
 
+    private void playerVictory()
+    {
+        winGamePosition = new Vector3(0, 180, 0);
+        transform.eulerAngles = winGamePosition;
+
+        cameraWin.SetActive(true);
+        Camera.main.gameObject.SetActive(false);
+    }
 
     private void StartThrow(InputAction.CallbackContext obj)
     {
         StartPos = PosBall.transform.position;
-        m_animator.SetBool("isRunning", true);
+        //m_animator.SetBool("isRunning", true);
     }
 
     private void EndThrow(InputAction.CallbackContext obj)
@@ -193,7 +208,8 @@ public class PlayerMove : MonoBehaviour
         inputs.touch.touchpos.performed -= MovePlayer;
         inputs.touch.touchhold.started -= StartThrow;
         inputs.touch.touchhold.canceled -= EndThrow;
-        UIManager.Ins.OnPlayerLose.AddListener(playerLose);
+        UIManager.Ins.OnPlayerLose.RemoveListener(playerLose);
+        UIManager.Ins.OnPlayerVictory.RemoveListener(playerVictory);
         inputs.Disable();
     }
 
