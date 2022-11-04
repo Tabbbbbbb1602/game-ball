@@ -20,7 +20,11 @@ public class Hammer : Strigger
 
             if ((target & (1 << layer)) != 0)
             {
-                Destroy(other.gameObject);
+                SpawnEnemy spawn = other.gameObject.GetComponentInChildren<SpawnEnemy>();
+                if(spawn != null)
+                {
+                    spawn.Dead();
+                }
                 return;
             }
 

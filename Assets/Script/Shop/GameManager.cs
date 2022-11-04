@@ -42,6 +42,7 @@ public class GameManager : Singleton<GameManager>
             m_player.GetComponent<CharacterController>().enabled = false;
             m_player.GetComponent<PlayerMove>().enabled = false;
             m_player.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            //_animator.SetBool("isVictory", true);
         }
 
     }
@@ -57,7 +58,6 @@ public class GameManager : Singleton<GameManager>
         {
             m_baller = Instantiate(newBallerPrefab, new Vector3(-1.46f, 14.23f, 60.0f), Quaternion.Euler(new Vector3(0.0f, 210.0f, 0.0f)));
             m_baller.transform.localScale  = new Vector3(0.5f, 0.5f, 0.5f);
-            //m_baller.transform.position = new Vector3(-1.46f, 13.60f, 60.0f);
         }
     }
 }

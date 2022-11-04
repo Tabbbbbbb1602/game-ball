@@ -21,7 +21,7 @@ public class Dialog : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("Scenes/Game");
+            SceneManager.LoadScene("Scenes/GameMap");
         }
     }
 

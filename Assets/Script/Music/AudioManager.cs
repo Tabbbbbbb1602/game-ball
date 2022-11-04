@@ -9,15 +9,19 @@ public class AudioManager : MonoBehaviour
     public Sound[] sounds;
     public static AudioManager instance;
 
-    private float MusicVolume = 0.5f;
-    private float BackgroundVolume = 0.5f;
+    private float MusicVolume;
+    private float BackgroundVolume;
+
+    private bool isMuteMusic;
     
     //slider
     public Slider volumeSliderMusic;
     public Slider VolumeSliderBackGround;
 
+    //public Toggle toggleMusic;
+
     //âm thanh nền
-    public AudioSource backgroundAudio;
+    //public AudioSource backgroundAudio;
 
     private void Awake()
     {
@@ -38,17 +42,33 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         //lấy âm thanh nếu chưa có thì khởi tạo, có rồi thì lấy ra
-        MusicVolume = PlayerPrefs.GetFloat(PrefConst.MUSIC);
-        volumeSliderMusic.value = MusicVolume;
-        BackgroundVolume = PlayerPrefs.GetFloat(PrefConst.SOUND);
-        VolumeSliderBackGround.value = BackgroundVolume;
+        /*BackgroundVolume = PlayerPrefs.GetFloat(PrefConst.SOUND);
+        VolumeSliderBackGround.value = BackgroundVolume;*/
+        if (PlayerPrefs.HasKey(PrefConst.MUSIC))
+        {
+            MusicVolume = PlayerPrefs.GetFloat(PrefConst.MUSIC);
+            Debug.Log(MusicVolume);
+            volumeSliderMusic.value = MusicVolume;
+        }
+        else
+        {
+            MusicVolume = 0.5f;
+            volumeSliderMusic.value = MusicVolume;
+        }
+
+        if (PlayerPrefs.HasKey(PrefConst.MUTEMUSIC))
+        {
+            //PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC) == 1 ? true : fa;
+            Debug.Log(PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC));
+        }
+        else
+        {
+            //return;
+        }
     }
 
     private void Update()
     {
-        //save âm thanh
-        PlayerPrefs.SetFloat(PrefConst.MUSIC, MusicVolume);
-        PlayerPrefs.SetFloat(PrefConst.SOUND, BackgroundVolume);
     }
 
     public void Play(string name)
@@ -65,10 +85,10 @@ public class AudioManager : MonoBehaviour
         gameObject.GetComponent<AudioSource>().volume = MusicVolume;
 
         MusicVolume = volume;
-
         foreach (Sound s in sounds)
         {
             s.source.volume = volume;
+            PlayerPrefs.SetFloat(PrefConst.MUSIC, volume);
         }
     }
 
@@ -78,9 +98,11 @@ public class AudioManager : MonoBehaviour
     {
         foreach (Sound s in sounds)
         {
+            //s.source.mute = false;
             s.source.mute = false;
+            PlayerPrefs.SetFloat(PrefConst.MUTEMUSIC, 0);
         }
-        PlayerPrefs.Save();
+        Debug.Log("MusicON");
     }
 
     public void MuSicOff()
@@ -88,29 +110,27 @@ public class AudioManager : MonoBehaviour
         foreach (Sound s in sounds)
         {
             s.source.mute = true;
+            PlayerPrefs.SetFloat(PrefConst.MUTEMUSIC, 1);
         }
-        PlayerPrefs.Save();
     }
 
     public void UpdateEffect(float volume)
     {
         //upload âm thanh theo volume
-        backgroundAudio.volume = BackgroundVolume;
+        //backgroundAudio.volume = BackgroundVolume;
         BackgroundVolume = volume;
-        PlayerPrefs.Save();
     }
 
     //turn off and turn on sound
     public void EffectOn()
     {
-        backgroundAudio.mute = false;
-        PlayerPrefs.Save();
+        //backgroundAudio.mute = false;
+        Debug.Log("EffectOn");
     }
 
     public void EffectOff()
     {
-        backgroundAudio.mute = true;
-        PlayerPrefs.Save();
-        
+        //backgroundAudio.mute = true;
+        Debug.Log("EffectOn");
     }
 }

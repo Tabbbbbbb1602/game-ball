@@ -26,8 +26,6 @@ public class PlayerMove : MonoBehaviour
     public bool haveBall;
     private Vector3 direction;
     Vector3 motion;
-    Vector3 StartPos;
-    Vector3 EndPos;
     Vector2 delta;
     Vector3 gravity = Vector3.zero;
 
@@ -58,7 +56,10 @@ public class PlayerMove : MonoBehaviour
 
     public GameObject cameraWin;
 
-    public GameObject characterVictory;
+    private bool isChup;
+    public int count = 3;
+
+    public static event Action AnimationUi;
 
     private void Awake()
     {
@@ -75,6 +76,8 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         countObstacleEnemy = GameObject.Find("ObstacleEnemy");
+        //slider.maxValue = count;
+        
     }
     private void OnEnable()
     {
@@ -83,16 +86,20 @@ public class PlayerMove : MonoBehaviour
         inputs.touch.touchhold.canceled += EndThrow;
         UIManager.Ins.OnPlayerVictory.AddListener(playerVictory);
         UIManager.Ins.OnPlayerLose.AddListener(playerLose);
-        AbsShootingAndThrowBall.OnChupBanh += combo;
+        AbsShootingAndThrowBall.OnChupBanh += OnChupBanh;
         inputs.Enable();
 
     }
     
 
-    private void combo(Transform shooter)
+    private void OnChupBanh (Transform shooter)
     {
-        int count = 2;
-        counter = !shooter.Equals(transform) ? 0 : counter + 1;
+        bool isShooter = shooter.Equals(transform);
+        if (isShooter)
+        {
+            isChup = true;
+        }
+        counter = !isShooter ? 0 : counter + 1;
 
         if (counter == count)
         {
@@ -107,10 +114,10 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-
     private void Update()
     {
-        HandleAnimtion();
+
+        //HandleAnimtion();
         if (!controller.isGrounded)
         {
             gravity.y -= 9.8f;
@@ -120,77 +127,61 @@ public class PlayerMove : MonoBehaviour
         }
         obstacleEnemy();
 
-        EndPos = transform.position;
-        direction = (EndPos - StartPos).normalized;
-        Debug.DrawRay(transform.position, direction * 10, Color.red);
-
-        //directionBall();
+        directionBall();
     }
 
     private void directionBall()
     {
-        if (m_ball)
+        if(isChup)
         {
-            Vector3 dirBall = g_direction.transform.position - m_ball.transform.position;
-            dirBall.y = 0;
-            g_direction.transform.rotation = Quaternion.LookRotation(dirBall.normalized);
-        }
-        
+            direction = (transform.position - PosBall.position).normalized;
+            direction.y = 0;
+            Debug.DrawRay(transform.position, direction * 10f, Color.red);
+        }   
     }
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
         {
             int activeScene = SceneManager.GetActiveScene().buildIndex;
             PlayerPrefs.SetInt("LevelSaved", activeScene);
             Instantiate(partialVictory, transform.position, transform.rotation);
             isVictory = true;
-            /*m_animator.SetBool("isRunning", false);
-            m_animator.SetBool("IsVictory", true);*/
             UIManager.Ins.playerVictory();
             UIManager.Ins.enemyLose();
             PosBall.gameObject.SetActive(false);
             slider.value = 0;
-
-           /* winGamePosition = new Vector3(0, 180, 0);
-            transform.eulerAngles = winGamePosition;*/
         }
     }
 
     private void playerLose()
     {
-        /*winGamePosition = new Vector3(0, 180, 0);
-        transform.eulerAngles = winGamePosition;*/
-        /* m_animator.SetBool("isRunning", false);
-         m_animator.SetBool("IsLose", true);*/
-        //Debug.Log("player Lose");
-        Debug.Log("playerLose");
-        
+        m_animator.SetBool("isLose", true);
+        winGamePosition = new Vector3(0, 0, 0);
+        transform.eulerAngles = winGamePosition;
+        PosBall.gameObject.SetActive(false);
     }
 
     private void playerVictory()
     {
-        /*winGamePosition = new Vector3(0, 180, 0);
-        transform.eulerAngles = winGamePosition;*/
-        gameObject.SetActive(false);
-        /* cameraWin.SetActive(true);
-         Camera.main.gameObject.SetActive(false);*/
-        Debug.Log("player Victory");
+        winGamePosition = new Vector3(0, 90, 0);
+        transform.eulerAngles = winGamePosition;
+        m_animator.SetBool("isVictory", true);
     }
 
     private void StartThrow(InputAction.CallbackContext obj)
     {
-        StartPos = PosBall.transform.position;
-        //m_animator.SetBool("isRunning", true);
+        m_animator.SetBool("isRunning", true);
+        AnimationUi?.Invoke();
     }
 
     private void EndThrow(InputAction.CallbackContext obj)
     {
-        EndPos = transform.position;
-        direction = (EndPos - StartPos).normalized;
+        m_animator.SetBool("isRunning", false);
         Debug.DrawRay(transform.position, direction, Color.red);
         shootingAndThrowBall.nem(direction);
+        isChup = false;
     }
 
     private void MovePlayer(InputAction.CallbackContext obj)
@@ -213,6 +204,7 @@ public class PlayerMove : MonoBehaviour
         inputs.touch.touchhold.canceled -= EndThrow;
         UIManager.Ins.OnPlayerLose.RemoveListener(playerLose);
         UIManager.Ins.OnPlayerVictory.RemoveListener(playerVictory);
+        AbsShootingAndThrowBall.OnChupBanh -= OnChupBanh;
         inputs.Disable();
     }
 

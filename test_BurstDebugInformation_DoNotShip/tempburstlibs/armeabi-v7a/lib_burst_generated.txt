@@ -112,6 +112,7 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_TILEMAP
 --compilation-defines=ENABLE_TIMELINE
 --compilation-defines=ENABLE_INPUT_SYSTEM
+--compilation-defines=ENABLE_LEGACY_INPUT_MANAGER
 --compilation-defines=UNITY_POST_PROCESSING_STACK_V2
 --compilation-defines=PACKAGE_PHYSICS
 --compilation-defines=PACKAGE_PHYSICS2D
@@ -144,9 +145,10 @@ Library: lib_burst_generated
 --compilation-defines=CINEMACHINE_PHYSICS_2D
 --compilation-defines=CINEMACHINE_PHYSICS
 --compilation-defines=CINEMACHINE_UGUI
---compilation-defines=CINEMACHINE_LWRP_7_0_0
---compilation-defines=CINEMACHINE_LWRP_7_1_3
+--compilation-defines=CINEMACHINE_LWRP_7_3_1
 --compilation-defines=CINEMACHINE_UNITY_INPUTSYSTEM
+--compilation-defines=CINEMACHINE_UNITY_ANIMATION
+--compilation-defines=CINEMACHINE_UNITY_IMGUI
 --compilation-defines=USING_PARTICLE_SYSTEM
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --compilation-defines=UNIVERSAL_1_0_0_OR_NEWER

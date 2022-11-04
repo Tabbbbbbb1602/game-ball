@@ -33,9 +33,7 @@ public class UI : MonoBehaviour
 
     private void Start()
     {
-       /* var adsInterstitial = new Interstitial();
-        adsInterstitial.InitServices();
-        adsInterstitial.ShowAd();*/
+      
     }
 
     private void OnEnable()
@@ -82,6 +80,7 @@ public class UI : MonoBehaviour
     {
         game.SetActive(true);
         mainMenu.SetActive(false);
+        gameLoad.SetActive(false);
         Time.timeScale = 0;
     }
 

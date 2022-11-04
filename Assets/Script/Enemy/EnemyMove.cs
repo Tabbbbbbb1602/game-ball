@@ -34,9 +34,6 @@ public class EnemyMove : MonoBehaviour
     public GameObject loseGame;
     public GameObject gameLoad;
 
-    //event
-    public static event Action OnEnemyDead;
-
     private NavMeshAgent navMeshAgent;
     public AbsShootingAndThrowBall shootingAndThrowBall;
 
@@ -67,15 +64,11 @@ public class EnemyMove : MonoBehaviour
     }
 
     private void enemyLose()
-    {
-        /*navMeshAgent.ResetPath();
-        navMeshAgent.enabled = false;
-        transform.GetComponent<EnemyMove>().enabled = false;
-        animator.SetFloat(hashVelocity, 0);*/
-        /* m_animator.SetBool("isRunning", false);
-         m_animator.SetBool("isLose", true);*/
-        //gameObject.SetActive(false);
-        Debug.Log("Enemy lose");
+    {   
+        //Debug.Log("Enemy lose");
+        animator.SetFloat(hashVelocity, 0);
+        animator.SetBool("isLose", true);
+        GameObject.FindGameObjectWithTag("Enemy").SetActive(false);
     }
 
     private void OnDisable()
@@ -87,8 +80,8 @@ public class EnemyMove : MonoBehaviour
 
     void enemyVictory()
     {
-        Debug.Log("enemyVictory");
-        //gameObject.SetActive(false);
+        //Debug.Log("enemyVictory");
+        //PosBall.gameObject.SetActive(false);
     }
 
     
@@ -144,13 +137,6 @@ public class EnemyMove : MonoBehaviour
             isRot = true;
             navMeshAgent.ResetPath();
         }
-    }
-
-
-    //gọi event khi object bị hủy
-    private void OnDestroy()
-    {
-        OnEnemyDead?.Invoke();
     }
 
 

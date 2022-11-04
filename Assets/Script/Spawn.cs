@@ -9,7 +9,7 @@ public class Spawn : MonoBehaviour
     public Rigidbody rbBall;
     private Player m_player;
 
-    //public CinemachineVirtualCamera cinemachineVirtualCamera;
+    public CinemachineFreeLook cinemachineFreeLook; 
 
     private void Start()
     {
@@ -44,13 +44,13 @@ public class Spawn : MonoBehaviour
 
         if (newPlayerPrefab)
         {
-            m_player = Instantiate(newPlayerPrefab, new Vector3(0f, 0f, -10f), Quaternion.identity);
+            m_player = Instantiate(newPlayerPrefab, new Vector3(0f, 0f, -12.5f), Quaternion.identity);
             m_player.transform.localScale = new Vector3(1, 1, 1);
             m_player.GetComponent<AbsShootingAndThrowBall>()._ball = Ball.transform;
             m_player.GetComponent<AbsShootingAndThrowBall>().RbBall = rbBall;
 
-           /* cinemachineVirtualCamera.Follow = m_player.transform;
-            cinemachineVirtualCamera.LookAt = m_player.transform;*/
+           cinemachineFreeLook.Follow = m_player.transform;
+           cinemachineFreeLook.LookAt = m_player.transform;
         }
 
     }

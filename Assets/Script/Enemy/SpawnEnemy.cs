@@ -4,37 +4,24 @@ using UnityEngine;
 
 public class SpawnEnemy : MonoBehaviour
 {
-    public GameObject[] enemy;
+    public GameObject orgin;
+    public GameObject parent;
 
-    public Transform[] spawnPoints;
-
-    public int index = 0;
-    public int InitEnemy;
-
-    List<GameObject> EnemiesList = new List<GameObject>();
-
-
-    private void Start()
+    void Update ()
     {
-        for(int i = 0; i < InitEnemy; i++) {
-            EnemySpawner();
-        }
+        transform.position = orgin.transform.position;
     }
 
-    private void OnEnable()
+    IEnumerator EnemySpawner(float waitTime)
     {
-        EnemyMove.OnEnemyDead += EnemySpawner;
+        yield return new WaitForSeconds(waitTime);
+        orgin.SetActive(true);
+        GameObject InstanceEnemies = Instantiate(parent, parent.transform.position, parent.transform.rotation);
+        Destroy(parent);
     }
-
-    void EnemySpawner()
+    public void Dead()
     {
-        int spawnPointIndex = Random.Range(0, spawnPoints.Length);
-        GameObject InstanceEnemies = Instantiate(enemy[index], spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation) as GameObject;
-        EnemiesList.Add(InstanceEnemies);
-}
-
-    private void OnDisable()
-    {
-        EnemyMove.OnEnemyDead -= EnemySpawner;
+        orgin.SetActive(false);
+        StartCoroutine(EnemySpawner(1f));
     }
 }
