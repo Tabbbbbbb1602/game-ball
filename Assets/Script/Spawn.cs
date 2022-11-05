@@ -9,7 +9,9 @@ public class Spawn : MonoBehaviour
     public Rigidbody rbBall;
     private Player m_player;
 
-    public CinemachineFreeLook cinemachineFreeLook; 
+    public CinemachineFreeLook cinemachineFreeLook;
+
+    public CameraShake cameraShake;
 
     private void Start()
     {
@@ -48,6 +50,7 @@ public class Spawn : MonoBehaviour
             m_player.transform.localScale = new Vector3(1, 1, 1);
             m_player.GetComponent<AbsShootingAndThrowBall>()._ball = Ball.transform;
             m_player.GetComponent<AbsShootingAndThrowBall>().RbBall = rbBall;
+            m_player.GetComponent<PlayerMove>().cameraShake = cameraShake;
 
            cinemachineFreeLook.Follow = m_player.transform;
            cinemachineFreeLook.LookAt = m_player.transform;

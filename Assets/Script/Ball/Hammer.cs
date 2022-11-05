@@ -6,8 +6,6 @@ public class Hammer : Strigger
 {
     public LayerMask target;
 
-
-   
     protected override void Vacham(Collider other)
     {
         int layer = other.gameObject.layer;

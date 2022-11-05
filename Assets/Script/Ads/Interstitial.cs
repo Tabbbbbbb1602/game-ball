@@ -94,7 +94,7 @@ using UnityEngine;
 
         void AdLoaded(object sender, EventArgs e)
         {
-            Debug.Log("Ad loaded");
+            //Debug.Log("Ad loaded");
         }
 
         void AdFailedLoad(object sender, LoadErrorEventArgs e)

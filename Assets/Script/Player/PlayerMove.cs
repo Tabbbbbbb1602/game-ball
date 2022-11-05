@@ -65,6 +65,7 @@ public class PlayerMove : MonoBehaviour
 
     private bool isPause;
 
+    public CameraShake cameraShake;
     private void Awake()
     {
         haveBall = true;
@@ -110,6 +111,7 @@ public class PlayerMove : MonoBehaviour
         if (counter == count)
         {
             PosBall.GetComponent<Ball>().changeWeapon(Hammer);
+            StartCoroutine(cameraShake.Shake(0.15f, 1.0f));
         } else if(counter > count)
         {
             counter = 0;
