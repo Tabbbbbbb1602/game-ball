@@ -13,7 +13,6 @@ public class AnimationUIMain : MonoBehaviour
     {
         playerMove = GetComponent<PlayerMove>();
         animator = GetComponent<Animator>();
-        Debug.Log(animator);
     }
 
     private void OnEnable()
@@ -30,7 +29,6 @@ public class AnimationUIMain : MonoBehaviour
     public void AnimationUi()
     {
         animator.SetBool("isAnimation", true);
-        Debug.Log("okkkkkkkkkkkkk");
     }
 
     private void OnDisable()

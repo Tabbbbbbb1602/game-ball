@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
@@ -21,6 +22,8 @@ public class UI : MonoBehaviour
 
     public Text coinCountingText;
 
+    public static event Action<bool> pauseGame;
+    public static event Action resumeGame;
 
     public void Awake()
     {
@@ -38,11 +41,11 @@ public class UI : MonoBehaviour
 
     private void OnEnable()
     {
-        inputs.Enable();
         inputs.touch.touchpos.performed += StartThrow;
         UIManager.Ins.OnPlayerVictory.AddListener(victoryGame);
         UIManager.Ins.OnPlayerLose.AddListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.AddListener(changeTextCoins);
+        inputs.Enable();
     }
 
     private void StartThrow(InputAction.CallbackContext obj)
@@ -66,6 +69,7 @@ public class UI : MonoBehaviour
     {
         mainMenu.SetActive(false);
         settings.SetActive(true);
+        pauseGame?.Invoke(true);
         Time.timeScale = 0;
     }
 
@@ -73,6 +77,7 @@ public class UI : MonoBehaviour
     {
         settings.SetActive(false);
         mainMenu.SetActive(true);
+        pauseGame?.Invoke(false);
         Time.timeScale = 1;
     }
 

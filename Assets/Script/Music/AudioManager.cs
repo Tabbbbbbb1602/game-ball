@@ -47,7 +47,6 @@ public class AudioManager : MonoBehaviour
         if (PlayerPrefs.HasKey(PrefConst.MUSIC))
         {
             MusicVolume = PlayerPrefs.GetFloat(PrefConst.MUSIC);
-            Debug.Log(MusicVolume);
             volumeSliderMusic.value = MusicVolume;
         }
         else
@@ -59,7 +58,7 @@ public class AudioManager : MonoBehaviour
         if (PlayerPrefs.HasKey(PrefConst.MUTEMUSIC))
         {
             //PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC) == 1 ? true : fa;
-            Debug.Log(PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC));
+            //Debug.Log(PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC));
         }
         else
         {

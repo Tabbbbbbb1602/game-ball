@@ -61,9 +61,12 @@ public class PlayerMove : MonoBehaviour
 
     public static event Action AnimationUi;
 
+    private bool isAnimations;
+
+    private bool isPause;
+
     private void Awake()
     {
-        //activeBall();
         haveBall = true;
         inputs = new TouchInput();
         m_animator = gameObject.GetComponent<Animator>();
@@ -72,6 +75,7 @@ public class PlayerMove : MonoBehaviour
         shootingAndThrowBall = GetComponent<AbsShootingAndThrowBall>();
         newBallerPrefab = ShopManager.Ins.itemsBall[Pref.CurBallId].BallPb;
         PosBall = GameObject.FindGameObjectWithTag("Ball").transform;
+        isAnimations = true;
     }
     private void Start()
     {
@@ -87,9 +91,11 @@ public class PlayerMove : MonoBehaviour
         UIManager.Ins.OnPlayerVictory.AddListener(playerVictory);
         UIManager.Ins.OnPlayerLose.AddListener(playerLose);
         AbsShootingAndThrowBall.OnChupBanh += OnChupBanh;
+        UI.pauseGame += pauseGame;
         inputs.Enable();
 
     }
+
     
 
     private void OnChupBanh (Transform shooter)
@@ -116,18 +122,24 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        if(!isPause)
+        {
+            if (!controller.isGrounded)
+            {
+                gravity.y -= 9.8f;
+            } else
+            {
+                gravity.y = -9.8f;
+            }
+            obstacleEnemy();
 
-        //HandleAnimtion();
-        if (!controller.isGrounded)
-        {
-            gravity.y -= 9.8f;
-        } else
-        {
-            gravity.y = -9.8f;
+            directionBall();
         }
-        obstacleEnemy();
-
-        directionBall();
+        //HandleAnimtion();
+    }
+    public void pauseGame(bool pause)
+    {
+        isPause = pause;
     }
 
     private void directionBall()
@@ -173,7 +185,10 @@ public class PlayerMove : MonoBehaviour
     private void StartThrow(InputAction.CallbackContext obj)
     {
         m_animator.SetBool("isRunning", true);
-        AnimationUi?.Invoke();
+        if (isAnimations)
+        {
+            AnimationUi?.Invoke();
+        }
     }
 
     private void EndThrow(InputAction.CallbackContext obj)
@@ -186,10 +201,14 @@ public class PlayerMove : MonoBehaviour
 
     private void MovePlayer(InputAction.CallbackContext obj)
     {
-        delta = obj.ReadValue<Vector2>();
-        motion = new Vector3(delta.x, 0, delta.y);
-        controller.Move(motion * 0.01f * playerSpeed + gravity);
-        Vector3 velocity = controller.velocity;
+        if (!isPause)
+        {
+            delta = obj.ReadValue<Vector2>();
+            motion = new Vector3(delta.x, 0, delta.y);
+            controller.Move(motion * 0.01f * playerSpeed + gravity);
+            Vector3 velocity = controller.velocity;
+        }
+        //AnimationUi?.Invoke();
         //Debug.Log(delta);
         /*if (haveBall)
         {
@@ -205,6 +224,7 @@ public class PlayerMove : MonoBehaviour
         UIManager.Ins.OnPlayerLose.RemoveListener(playerLose);
         UIManager.Ins.OnPlayerVictory.RemoveListener(playerVictory);
         AbsShootingAndThrowBall.OnChupBanh -= OnChupBanh;
+        UI.pauseGame -= pauseGame;
         inputs.Disable();
     }
 
