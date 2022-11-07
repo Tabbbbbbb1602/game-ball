@@ -18,15 +18,23 @@ public class UI : MonoBehaviour
     public GameObject map;
     public GameObject textCoins;
 
+    public GameObject btnContinue;
+    public GameObject btnDoubleReward;
+    public GameObject btnLose;
+
     private TouchInput inputs;
+
+    public Transform obsEnemyCount;
 
     public Text coinCountingText;
 
     public static event Action<bool> pauseGame;
     public static event Action resumeGame;
 
+    private int countObsEnemy;
     public void Awake()
     {
+        countObsEnemy = obsEnemyCount.childCount;
         mainMenu.SetActive(true);
         game.SetActive(false);
         gameLoad.SetActive(false);
@@ -41,6 +49,7 @@ public class UI : MonoBehaviour
         UIManager.Ins.OnPlayerVictory.AddListener(victoryGame);
         UIManager.Ins.OnPlayerLose.AddListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.AddListener(changeTextCoins);
+        RewardedAds.doubleReward += doubleReward;
         inputs.Enable();
     }
 
@@ -131,12 +140,15 @@ public class UI : MonoBehaviour
         gameLoad.SetActive(false);
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("BACKLEVEL", currentLevel);
+        StartCoroutine(btnDoubleDelay());
+        StartCoroutine(btnContinueDelay());
     }                                                                                                                                                                                                                                                                                                                                                                                                                                      
 
     public void loseGames()
     {
         loseGameObj.SetActive(true);
         gameLoad.SetActive(false);
+        StartCoroutine(btnLoseDelay());
     }
 
     public void changeTextCoins()
@@ -146,16 +158,41 @@ public class UI : MonoBehaviour
             coinCountingText.text = "" + Pref.Coins;
     }
 
+    public void doubleReward()
+    {
+        Pref.Coins += countObsEnemy;
+        if (coinCountingText)
+            coinCountingText.text = "" + Pref.Coins;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     private void OnDisable()
     {
         inputs.touch.touchpos.performed -= StartThrow;
+        RewardedAds.doubleReward -= doubleReward;
         UIManager.Ins.OnPlayerVictory.RemoveListener(victoryGame);
         UIManager.Ins.OnPlayerLose.RemoveListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.RemoveListener(changeTextCoins);
         inputs.Disable();
     }
 
+    IEnumerator btnDoubleDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        btnDoubleReward.gameObject.SetActive(true);
+    }
 
+    IEnumerator btnContinueDelay()
+    {
+        yield return new WaitForSeconds(4.0f);
+        btnContinue.gameObject.SetActive(true);
+    }
+
+    IEnumerator btnLoseDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        btnLose.gameObject.SetActive(true);
+    }
 
 
 }
