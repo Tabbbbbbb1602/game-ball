@@ -86,15 +86,14 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnEnable()
     {
-        inputs.touch.touchpos.performed += MovePlayer;
         inputs.touch.touchhold.started += StartThrow;
+        inputs.touch.touchpos.performed += MovePlayer;
         inputs.touch.touchhold.canceled += EndThrow;
         UIManager.Ins.OnPlayerVictory.AddListener(playerVictory);
         UIManager.Ins.OnPlayerLose.AddListener(playerLose);
         AbsShootingAndThrowBall.OnChupBanh += OnChupBanh;
         UI.pauseGame += pauseGame;
         inputs.Enable();
-
     }
 
     
@@ -156,7 +155,7 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
         {
             int activeScene = SceneManager.GetActiveScene().buildIndex;
             PlayerPrefs.SetInt("LevelSaved", activeScene);
@@ -210,6 +209,7 @@ public class PlayerMove : MonoBehaviour
             controller.Move(motion * 0.01f * playerSpeed + gravity);
             Vector3 velocity = controller.velocity;
         }
+
         //AnimationUi?.Invoke();
         //Debug.Log(delta);
         /*if (haveBall)
@@ -223,8 +223,8 @@ public class PlayerMove : MonoBehaviour
         inputs.touch.touchpos.performed -= MovePlayer;
         inputs.touch.touchhold.started -= StartThrow;
         inputs.touch.touchhold.canceled -= EndThrow;
-        UIManager.Ins.OnPlayerLose.RemoveListener(playerLose);
         UIManager.Ins.OnPlayerVictory.RemoveListener(playerVictory);
+        UIManager.Ins.OnPlayerLose.RemoveListener(playerLose);
         AbsShootingAndThrowBall.OnChupBanh -= OnChupBanh;
         UI.pauseGame -= pauseGame;
         inputs.Disable();

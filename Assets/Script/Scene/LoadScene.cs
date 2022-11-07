@@ -20,14 +20,13 @@ public class LoadScene : MonoBehaviour
     public void LoadGameContinue()
     {
         currentSceneIndex = PlayerPrefs.GetInt("LevelSaved");
-
         if (PlayerPrefs.HasKey("LevelSaved"))
         {
             SceneManager.LoadScene(currentSceneIndex + 1);
         }
         else
         {
-            SceneManager.LoadScene("Scenes/New Scene");
+            SceneManager.LoadScene("Scenes/GameMap");
         }
     }
 }

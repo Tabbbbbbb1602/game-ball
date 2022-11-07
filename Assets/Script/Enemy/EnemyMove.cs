@@ -31,9 +31,6 @@ public class EnemyMove : MonoBehaviour
 
     Animator m_animator;
 
-    public GameObject loseGame;
-    public GameObject gameLoad;
-
     private NavMeshAgent navMeshAgent;
     public AbsShootingAndThrowBall shootingAndThrowBall;
 
@@ -69,13 +66,6 @@ public class EnemyMove : MonoBehaviour
         animator.SetFloat(hashVelocity, 0);
         animator.SetBool("isLose", true);
         GameObject.FindGameObjectWithTag("Enemy").SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        UIManager.Ins.OnEnemyVictory.RemoveListener(enemyVictory);
-        AbsShootingAndThrowBall.OnChupBanh -= OnChupBanh;
-        UIManager.Ins.OnEnemyLose.RemoveListener(enemyLose);
     }
 
     void enemyVictory()
@@ -151,5 +141,12 @@ public class EnemyMove : MonoBehaviour
             agent.SetDestination(position);
         }
         StartCoroutine(MoveEnemyOne(2.0f));
+    }
+
+    private void OnDisable()
+    {
+        AbsShootingAndThrowBall.OnChupBanh -= OnChupBanh;
+        UIManager.Ins.OnEnemyVictory.RemoveListener(enemyVictory);
+        UIManager.Ins.OnEnemyLose.RemoveListener(enemyLose);
     }
 }

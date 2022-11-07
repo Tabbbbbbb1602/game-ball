@@ -33,6 +33,6 @@ public class AnimationUIMain : MonoBehaviour
 
     private void OnDisable()
     {
-        PlayerMove.AnimationUi += AnimationUi;
+        PlayerMove.AnimationUi -= AnimationUi;
     }
 }

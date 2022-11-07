@@ -34,10 +34,6 @@ public class UI : MonoBehaviour
         inputs = new TouchInput();
     }
 
-    private void Start()
-    {
-      
-    }
 
     private void OnEnable()
     {
@@ -52,12 +48,6 @@ public class UI : MonoBehaviour
     {
         mainMenu.SetActive(false);
         gameLoad.SetActive(true);
-    }
-
-    private void OnDisable()
-    {
-        inputs.touch.touchpos.performed -= StartThrow;
-        inputs.Disable();
     }
 
     public void showShop()
@@ -92,10 +82,16 @@ public class UI : MonoBehaviour
     public void showMainMenu()
     {
         //UIManager.Ins.changeTextCoins();
-        mainMenu.SetActive(true);
-        game.SetActive(false);
-        gameLoad.SetActive(false);
-        Time.timeScale = 1;
+
+        /*if (PlayerPrefs.HasKey("BACKLEVEL"))
+        {
+            SceneManager.GetActiveScene().buildIndex;
+        }
+        else
+        {
+            SceneManager.LoadScene("Scenes/GameMap");
+        }*/
+        SceneManager.LoadScene("Scenes/GameMap");
     }
 
     public void resume()
@@ -148,6 +144,15 @@ public class UI : MonoBehaviour
         Pref.Coins += 1;
         if (coinCountingText)
             coinCountingText.text = "" + Pref.Coins;
+    }
+
+    private void OnDisable()
+    {
+        inputs.touch.touchpos.performed -= StartThrow;
+        UIManager.Ins.OnPlayerVictory.RemoveListener(victoryGame);
+        UIManager.Ins.OnPlayerLose.RemoveListener(loseGames);
+        UIManager.Ins.OnChangeTextCoins.RemoveListener(changeTextCoins);
+        inputs.Disable();
     }
 
 
