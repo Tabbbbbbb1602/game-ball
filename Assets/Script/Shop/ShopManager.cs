@@ -13,26 +13,7 @@ public class ShopManager : Singleton<ShopManager>
 
     private void Awake()
     {
-        //playerData = PlayerData.Load();
-        //Debug.Log(playerData.a);
-        //playerData.a = 2;
-        //playerData.save();
-        //playerData.b = 3;
-
-
-        ////mua bong
-        //playerData.balls.Add("ball1");
-        //playerData.save();
-
-
-        ////chon bong
-        //playerData.indexBall = 1;
-        //playerData.save();
-
-        //GameObject ball = Resources.Load("/balls/" + playerData.balls[playerData.indexBall]) as GameObject ;
-        //Instantiate(ball);
-
-
+       
     }
 
 
@@ -104,41 +85,3 @@ public class BallItem
     public Sprite hubBall;
     public GameObject BallPb;
 }
-
-
-/*public class PlayerData
-{
-    public int a;
-    public int b;
-    public int indexBall;
-
-    public List<int> balls;
-
-    private static string key_data = "playerdata";
-
-    public PlayerData()
-    {
-        a = 0;
-        b = 0;
-        indexBall = 0;
-        balls = new List<int>();
-    }
-
-    public void save()
-    {
-        string json = JsonUtility.ToJson(this);
-        PlayerPrefs.SetString(key_data,json);
-    }
-
-    public static  PlayerData Load()
-    {
-        string json = PlayerPrefs.GetString(key_data);
-        if(string.IsNullOrEmpty(json))
-        {
-            return new PlayerData();
-        }
-
-        return JsonUtility.FromJson<PlayerData>(json);
-    }
-
-}*/

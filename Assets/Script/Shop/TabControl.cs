@@ -36,13 +36,13 @@ public class TabControl : MonoBehaviour
     {
         HideAllTabs();
         CharacterContent.SetActive(true);
-        CharacterButton.GetComponent<Button>().image.color = new Color32(255, 255, 255, 255);
+        CharacterButton.GetComponent<Button>().image.color = new Color32(241, 133, 133, 255);
     }
 
     public void ShowBall()
     {
         HideAllTabs();
         BallContent.SetActive(true);
-        BallButton.GetComponent<Button>().image.color = new Color32(255, 255, 255, 255);
+        BallButton.GetComponent<Button>().image.color = new Color32(241, 133, 133, 255);
     }
 }

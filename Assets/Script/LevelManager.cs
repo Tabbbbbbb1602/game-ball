@@ -20,7 +20,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         base.Start();
         if (!PlayerPrefs.HasKey(PrefConst.COIN_KEY))
-            Pref.Coins = 10000;
+            Pref.Coins = 4000;
         GUIManager.Ins.UpdateCoins();
     }
 }

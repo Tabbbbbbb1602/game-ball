@@ -18,7 +18,7 @@ public class GameManager : Singleton<GameManager>
         base.Start();
 
         if (!PlayerPrefs.HasKey(PrefConst.COIN_KEY))
-            Pref.Coins = 30000;
+            Pref.Coins = 2000;
 
         ActivePlayer();
         ActiveBall();
@@ -42,7 +42,6 @@ public class GameManager : Singleton<GameManager>
             m_player.GetComponent<CharacterController>().enabled = false;
             m_player.GetComponent<PlayerMove>().enabled = false;
             m_player.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            //_animator.SetBool("isVictory", true);
         }
 
     }

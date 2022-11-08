@@ -75,11 +75,11 @@ public class PlayerMove : MonoBehaviour
         HashVelocity = Animator.StringToHash("Velocity");
         shootingAndThrowBall = GetComponent<AbsShootingAndThrowBall>();
         newBallerPrefab = ShopManager.Ins.itemsBall[Pref.CurBallId].BallPb;
-        PosBall = GameObject.FindGameObjectWithTag("Ball").transform;
         isAnimations = true;
     }
     private void Start()
     {
+        PosBall = GameObject.FindGameObjectWithTag("Ball").transform;
         countObstacleEnemy = GameObject.Find("ObstacleEnemy");
         //slider.maxValue = count;
         

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 public class ShopDialog : Dialog
@@ -11,6 +12,8 @@ public class ShopDialog : Dialog
     public Transform GridBall;
 
     public ShopItemUIBall ItemBallPrefab;
+
+    public static event Action showPopupNotEnoughCoins;
 
     private void Start()
     {
@@ -119,7 +122,7 @@ public class ShopDialog : Dialog
             }
             else
             {
-                Debug.Log("You don't enough coins !!!");
+                showPopupNotEnoughCoins?.Invoke();
             }
         }
     }
@@ -156,7 +159,7 @@ public class ShopDialog : Dialog
             }
             else
             {
-                Debug.Log("You don't enough coins !!!");
+                showPopupNotEnoughCoins?.Invoke();
             }
         }
     }
