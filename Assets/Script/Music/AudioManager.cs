@@ -41,9 +41,6 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        //lấy âm thanh nếu chưa có thì khởi tạo, có rồi thì lấy ra
-        /*BackgroundVolume = PlayerPrefs.GetFloat(PrefConst.SOUND);
-        VolumeSliderBackGround.value = BackgroundVolume;*/
         if (PlayerPrefs.HasKey(PrefConst.MUSIC))
         {
             MusicVolume = PlayerPrefs.GetFloat(PrefConst.MUSIC);

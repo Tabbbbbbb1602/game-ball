@@ -13,6 +13,11 @@ public class OnToOff : MonoBehaviour
         LoadMusicStart();
     }
 
+    private void Update()
+    {
+        LoadMusicStart();
+    }
+
     public void OnMusic()
     {
         On.SetActive(false);

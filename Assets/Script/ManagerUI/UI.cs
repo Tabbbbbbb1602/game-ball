@@ -148,7 +148,7 @@ public class UI : MonoBehaviour
     {
         loseGameObj.SetActive(true);
         gameLoad.SetActive(false);
-        StartCoroutine(btnLoseDelay());
+        //StartCoroutine(btnLoseDelay());
     }
 
     public void changeTextCoins()
