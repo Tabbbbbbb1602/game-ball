@@ -8,6 +8,11 @@ public class OnToOff : MonoBehaviour
     public GameObject On;
     public GameObject Off;
 
+    private void Start()
+    {
+        LoadMusicStart();
+    }
+
     public void OnMusic()
     {
         On.SetActive(false);
@@ -19,5 +24,22 @@ public class OnToOff : MonoBehaviour
         On.SetActive(true);
         Off.SetActive(false);
     }
-    
+
+    public void LoadMusicStart()
+    {
+        if (PlayerPrefs.HasKey(PrefConst.MUTEMUSIC))
+        {
+            Debug.Log(PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC));
+            if (PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC) == 1)
+            {
+                On.SetActive(false);
+                Off.SetActive(true);
+            }
+            else if (PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC) == 0)
+            {
+                On.SetActive(true);
+                Off.SetActive(false);
+            }
+        }
+    }
 }

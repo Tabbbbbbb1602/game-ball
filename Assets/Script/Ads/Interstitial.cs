@@ -11,10 +11,17 @@ using UnityEngine;
         string gameId = "4979623";
 
 
+    private bool isShowAds;
+
     private void Start()
     {
         InitServices();
-        UIManager.Ins.OnVictory.AddListener(ShowAd);
+        isShowAds = true;
+    }
+
+    private void OnEnable()
+    {
+        UIManager.Ins.OnPlayerLose.AddListener(showAds);
     }
 
     public async Task InitServices()
@@ -50,6 +57,13 @@ using UnityEngine;
 
         public void Dispose() => ad?.Dispose();
 
+        public void showAds()
+        {
+            if (isShowAds)
+            {
+                ShowAd();
+            }
+        }
 
         public async void ShowAd()
         {
@@ -111,7 +125,9 @@ using UnityEngine;
         void AdClosed(object sender, EventArgs e)
         {
             Debug.Log("Ad has closed");
-        // Execute logic after an ad has been closed.
+            // Execute logic after an ad has been closed.
+            isShowAds = false;
+            
         }
 
         void AdClicked(object sender, EventArgs e)
@@ -131,4 +147,10 @@ using UnityEngine;
             Debug.Log("Impression event from ad unit id " + args.AdUnitId + " " + impressionData);
         }
 
-    }
+       
+
+        private void OnDisable()
+        {
+            UIManager.Ins.OnPlayerLose.RemoveListener(showAds);
+        }
+}

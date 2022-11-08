@@ -55,14 +55,30 @@ public class AudioManager : MonoBehaviour
             volumeSliderMusic.value = MusicVolume;
         }
 
+
         if (PlayerPrefs.HasKey(PrefConst.MUTEMUSIC))
         {
-            //PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC) == 1 ? true : fa;
-            //Debug.Log(PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC));
+            if(PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC) == 1)
+            {
+                foreach (Sound s in sounds)
+                {
+                    s.source.mute = true;
+                }
+            }
+            else
+            {
+                foreach (Sound s in sounds)
+                {
+                    s.source.mute = false;
+                }
+            }
         }
         else
         {
-            //return;
+            foreach (Sound s in sounds)
+            {
+                s.source.mute = false;
+            }
         }
     }
 
@@ -101,7 +117,7 @@ public class AudioManager : MonoBehaviour
             s.source.mute = false;
             PlayerPrefs.SetFloat(PrefConst.MUTEMUSIC, 0);
         }
-        Debug.Log("MusicON");
+        Debug.Log("False");
     }
 
     public void MuSicOff()
@@ -111,6 +127,7 @@ public class AudioManager : MonoBehaviour
             s.source.mute = true;
             PlayerPrefs.SetFloat(PrefConst.MUTEMUSIC, 1);
         }
+        Debug.Log("true");
     }
 
     public void UpdateEffect(float volume)
