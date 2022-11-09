@@ -37,7 +37,7 @@ public class MoveEnemy : MonoBehaviour
     IEnumerator MoveEnemyOne(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        xPos = Random.Range(-15.0f, 14.5f);
+        xPos = Random.Range(-15.0f, -1.0f);
         zPos = Random.Range(8.0f, 25.0f);
         position = new Vector3(xPos, 0.5f, zPos);
         agent.SetDestination(position);

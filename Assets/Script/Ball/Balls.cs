@@ -10,9 +10,10 @@ public class Balls : Strigger
     protected override void Vacham(Collider other)
     {
         int layer = other.gameObject.layer;
+        int layerEnemyDead = 10;
         if ((ignoreLayer & (1 << layer)) == 0)
         {
-            if (preLayer == layer)
+            if (preLayer == layer || layerEnemyDead == layer)
             {
                     return;
             }

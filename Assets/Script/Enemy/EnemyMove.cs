@@ -7,9 +7,6 @@ using UnityEngine.AI;
 
 public class EnemyMove : MonoBehaviour
 {
- 
-    public float PowEnemy;
-
     //check have ball
     public bool haveBall;
     public GameObject enemyPrefab;
@@ -36,7 +33,7 @@ public class EnemyMove : MonoBehaviour
 
     private Transform target;
 
-    private bool isRot;
+    public bool isRot;
 
     private Animator animator;
     private int hashVelocity;
@@ -49,7 +46,7 @@ public class EnemyMove : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         hashVelocity = Animator.StringToHash("Velocity");
-        StartCoroutine(MoveEnemyOne(2.0f));
+        //StartCoroutine(MoveEnemyOne(2.0f));
 
     }
 
@@ -103,13 +100,14 @@ public class EnemyMove : MonoBehaviour
                 shootingAndThrowBall.nem(directionEnemy);
                 navMeshAgent.SetDestination(transform.position);
                 isRot = false;
+                Debug.DrawRay(transform.position, directionEnemy, Color.red);
             }
         }
     }
 
     public void obstaclePlayer()
     {
-        if(countObstaclePlayer.transform.childCount == 2)
+        if(countObstaclePlayer.transform.childCount == 0)
         {
             navMeshAgent.ResetPath();
             UIManager.Ins.playerLose();
@@ -118,7 +116,7 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    private void OnChupBanh(Transform shooter)
+    public void OnChupBanh(Transform shooter)
     {
         if(shooter.Equals(transform))
         {
@@ -129,18 +127,17 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-
     IEnumerator MoveEnemyOne(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        xPos = UnityEngine.Random.Range(-15.0f, 14.5f);
+        xPos = UnityEngine.Random.Range(-10.0f, 10.0f);
         zPos = UnityEngine.Random.Range(8.0f, 25.0f);
-        position = new Vector3(xPos, 0.5f, zPos);
+        position = new Vector3(xPos, 0f, zPos);
         if(!isRot)
         {
             agent.SetDestination(position);
         }
-        StartCoroutine(MoveEnemyOne(2.0f));
+        StartCoroutine(MoveEnemyOne(1.5f));
     }
 
     private void OnDisable()

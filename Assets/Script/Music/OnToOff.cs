@@ -34,7 +34,6 @@ public class OnToOff : MonoBehaviour
     {
         if (PlayerPrefs.HasKey(PrefConst.MUTEMUSIC))
         {
-            Debug.Log(PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC));
             if (PlayerPrefs.GetFloat(PrefConst.MUTEMUSIC) == 1)
             {
                 On.SetActive(false);

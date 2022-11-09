@@ -27,8 +27,8 @@ public class Ball : MonoBehaviour
     {
         var speed = lastVelocity.magnitude;
         var direction = Vector3.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
-
         rb.velocity = direction * Mathf.Max(speed, 0f);
+
     }
     
     public void changeWeapon(GameObject w)
