@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class MapManager : MonoBehaviour
     private int count = 0;
     private int priceItem = 1000;
     public string mapid;
+
+    private int currentSceneIndex;
 
     private void Start()
     {
@@ -19,6 +22,8 @@ public class MapManager : MonoBehaviour
 
     }
 
+
+    //upgradeMap
     public void upgradeMap()
     {
         //get coins
@@ -44,6 +49,21 @@ public class MapManager : MonoBehaviour
             }
         }
         DontDestroyOnLoad(gameObject);
+    }
+
+    //back to game scene
+
+    public void backButton()
+    {
+        currentSceneIndex = PlayerPrefs.GetInt("LevelSaved");
+        if (PlayerPrefs.HasKey("LevelSaved"))
+        {
+            SceneManager.LoadScene(currentSceneIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene("Scenes/Level_1");
+        }
     }
 
 }

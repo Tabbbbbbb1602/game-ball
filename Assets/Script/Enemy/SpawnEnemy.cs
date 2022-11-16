@@ -22,6 +22,6 @@ public class SpawnEnemy : MonoBehaviour
     public void Dead()
     {
         orgin.SetActive(false);
-        StartCoroutine(EnemySpawner(2.0f));
+        StartCoroutine(EnemySpawner(4.0f));
     }
 }

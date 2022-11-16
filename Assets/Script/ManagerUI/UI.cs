@@ -32,6 +32,7 @@ public class UI : MonoBehaviour
     public static event Action resumeGame;
 
     private int countObsEnemy;
+    private int currentSceneIndex;
     public void Awake()
     {
         countObsEnemy = obsEnemyCount.childCount;
@@ -91,16 +92,16 @@ public class UI : MonoBehaviour
     public void showMainMenu()
     {
         //UIManager.Ins.changeTextCoins();
-
-        /*if (PlayerPrefs.HasKey("BACKLEVEL"))
+        currentSceneIndex = PlayerPrefs.GetInt("LevelSaved");
+        if (PlayerPrefs.HasKey("BACKLEVEL"))
         {
-            SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIndex + 1);
         }
         else
         {
-            SceneManager.LoadScene("Scenes/GameMap");
-        }*/
-        SceneManager.LoadScene("Scenes/GameMap");
+            SceneManager.LoadScene("Scenes/Level_1");
+        }
+        //SceneManager.LoadScene("Scenes/GameMap");
     }
 
     public void resume()
@@ -112,7 +113,7 @@ public class UI : MonoBehaviour
 
     public void showMap()
     {
-        SceneManager.LoadScene("Scenes/Map");
+        SceneManager.LoadScene("Scenes/Map_forest");
     }
 
 
@@ -184,7 +185,7 @@ public class UI : MonoBehaviour
 
     IEnumerator btnContinueDelay()
     {
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(10.0f);
         btnContinue.gameObject.SetActive(true);
     }
 

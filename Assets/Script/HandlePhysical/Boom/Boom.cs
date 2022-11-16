@@ -35,7 +35,7 @@ public class Boom : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Cube" || collision.gameObject.tag == "Hammer")
+        if (collision.gameObject.tag == "Ball")
         {
             gameObject.GetComponent<SphereCollider>().radius = 3;
             var effects = Instantiate(effect, transform.position, transform.rotation);

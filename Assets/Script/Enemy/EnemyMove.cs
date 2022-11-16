@@ -40,13 +40,11 @@ public class EnemyMove : MonoBehaviour
 
     void Start()
     {
-        //StartCoroutine(MoveEnemy(2.0f));
         haveBall = false;
         countObstaclePlayer = GameObject.Find("ObstaclePlayer");
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         hashVelocity = Animator.StringToHash("Velocity");
-        //StartCoroutine(MoveEnemyOne(2.0f));
 
     }
 
@@ -95,8 +93,8 @@ public class EnemyMove : MonoBehaviour
             if (Quaternion.Angle(rotLockAt, transform.rotation) <= 1f)
             {
                 Vector3 directionEnemy = target.position - PosBall.transform.position;
-                directionEnemy.x = UnityEngine.Random.Range(directionEnemy.x - 10f, directionEnemy.x + 10f);
-                directionEnemy.z = UnityEngine.Random.Range(directionEnemy.z - 10f, directionEnemy.z + 10f);
+                directionEnemy.x = UnityEngine.Random.Range(directionEnemy.x - 3f, directionEnemy.x + 3f);
+                directionEnemy.z = UnityEngine.Random.Range(directionEnemy.z - 3f, directionEnemy.z + 3f);
                 shootingAndThrowBall.nem(directionEnemy);
                 navMeshAgent.SetDestination(transform.position);
                 isRot = false;
