@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -33,6 +33,9 @@ public class UI : MonoBehaviour
 
     private int countObsEnemy;
     private int currentSceneIndex;
+
+    private bool isShowSetting;
+    private bool isShowGameLoad;
     public void Awake()
     {
         countObsEnemy = obsEnemyCount.childCount;
@@ -56,8 +59,16 @@ public class UI : MonoBehaviour
 
     private void StartThrow(InputAction.CallbackContext obj)
     {
-        mainMenu.SetActive(false);
-        gameLoad.SetActive(true);
+       if(!isShowSetting)
+        {
+            mainMenu.SetActive(false);
+            gameLoad.SetActive(true);
+        }
+
+        if(isShowGameLoad == true)
+        {
+            gameLoad.SetActive(false);
+        }
     }
 
     public void showShop()
@@ -71,6 +82,7 @@ public class UI : MonoBehaviour
         settings.SetActive(true);
         pauseGame?.Invoke(true);
         Time.timeScale = 0;
+        isShowSetting = true;
     }
 
     public void closeSettings()
@@ -79,6 +91,7 @@ public class UI : MonoBehaviour
         mainMenu.SetActive(true);
         pauseGame?.Invoke(false);
         Time.timeScale = 1;
+        isShowSetting = false;
     }
 
     public void showPauseGame()
@@ -91,7 +104,6 @@ public class UI : MonoBehaviour
 
     public void showMainMenu()
     {
-        //UIManager.Ins.changeTextCoins();
         currentSceneIndex = PlayerPrefs.GetInt("LevelSaved");
         if (PlayerPrefs.HasKey("BACKLEVEL"))
         {
@@ -101,7 +113,6 @@ public class UI : MonoBehaviour
         {
             SceneManager.LoadScene("Scenes/Level_1");
         }
-        //SceneManager.LoadScene("Scenes/GameMap");
     }
 
     public void resume()
@@ -143,6 +154,9 @@ public class UI : MonoBehaviour
         PlayerPrefs.SetInt("BACKLEVEL", currentLevel);
         StartCoroutine(btnDoubleDelay());
         StartCoroutine(btnContinueDelay());
+        GameObject character = GameObject.FindGameObjectWithTag("Player");
+        character.GetComponent<PlayerMove>().enabled = false;
+        isShowGameLoad = true;
     }                                                                                                                                                                                                                                                                                                                                                                                                                                      
 
     public void loseGames()

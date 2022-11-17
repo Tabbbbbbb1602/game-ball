@@ -155,7 +155,7 @@ public class PlayerMove : MonoBehaviour
 
     public void obstacleEnemy()
     {
-        if (countObstacleEnemy.transform.childCount == 0 && !isVictory)
+        if (countObstacleEnemy.transform.childCount == 4 && !isVictory)
         {
             int activeScene = SceneManager.GetActiveScene().buildIndex;
             PlayerPrefs.SetInt("LevelSaved", activeScene);
@@ -181,6 +181,11 @@ public class PlayerMove : MonoBehaviour
         winGamePosition = new Vector3(0, 90, 0);
         transform.eulerAngles = winGamePosition;
         m_animator.SetBool("isVictory", true);
+        GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");
+        for(int i = 0; i < enemy.Length; i++)
+        {
+            enemy[i].SetActive(false);
+        }
     }
 
     private void StartThrow(InputAction.CallbackContext obj)

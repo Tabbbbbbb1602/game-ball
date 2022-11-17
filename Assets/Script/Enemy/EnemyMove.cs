@@ -60,7 +60,7 @@ public class EnemyMove : MonoBehaviour
         //Debug.Log("Enemy lose");
         animator.SetFloat(hashVelocity, 0);
         animator.SetBool("isLose", true);
-        GameObject.FindGameObjectWithTag("Enemy").SetActive(false);
+        //GameObject.FindGameObjectWithTag("Enemy").SetActive(false);
     }
 
     void enemyVictory()
