@@ -4,12 +4,14 @@ using Unity.Services.Core;
 using Unity.Services.Mediation;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 
 public class RewardedAds : MonoBehaviour
 {
     public Transform itemGift;
     private int count = 0;
+    public Text error;
 
     /*public Transform obsEnemy;
     public Text coinCountingText;*/
@@ -20,19 +22,14 @@ public class RewardedAds : MonoBehaviour
     string gameId = "4979623";
 
     public static event Action doubleReward;
+    public static event Action showAdsCompleted;
+    public static event Action showAdsFailed;
 
-    private void Start()
+    public GameObject btnx2Reward;
+    public GameObject btnContinue;
+    private void Awake()
     {
-        InitServices();
-        /* count = PlayerPrefs.GetInt("Map01");
-
-        //set true object actived
-        for (var i = 0; i < count; i++)
-        {
-            itemGift.GetChild(i).gameObject.SetActive(true);
-        }*/
-
-        //doubleReward();
+        _ = InitServices();
     }
 
     public async Task InitServices()
@@ -65,6 +62,8 @@ public class RewardedAds : MonoBehaviour
 
         // Impression Event
         MediationService.Instance.ImpressionEventPublisher.OnImpression += ImpressionEvent;
+        /*StartCoroutine(btnDoubleDelay());
+        StartCoroutine(btnContinueDelay());*/
     }
 
     public void Dispose() => ad?.Dispose();
@@ -91,7 +90,9 @@ public class RewardedAds : MonoBehaviour
     void InitializationComplete()
     {
         SetupAd();
-        LoadAd();
+        _ = LoadAd();
+        /*StartCoroutine(btnDoubleDelay());
+        StartCoroutine(btnContinueDelay());*/
     }
 
     async Task LoadAd()
@@ -99,16 +100,23 @@ public class RewardedAds : MonoBehaviour
         try
         {
             await ad.LoadAsync();
+            StartCoroutine(btnDoubleDelay());
+            StartCoroutine(btnContinueDelay());
+            showAdsCompleted?.Invoke();
         }
-        catch (LoadFailedException)
+        catch (LoadFailedException e)
         {
             // We will handle the failure in the OnFailedLoad callback
+            //error.text = e.Message;
         }
     }
 
     void InitializationFailed(Exception e)
     {
         Debug.Log("Initialization Failed: " + e.Message);
+        //error.text = "Initialization Failed:" +  e.Message;
+        StartCoroutine(btnContinueDelay());
+        //showAdsFailed?.Invoke();
     }
 
     void AdLoaded(object sender, EventArgs e)
@@ -119,7 +127,9 @@ public class RewardedAds : MonoBehaviour
     void AdFailedLoad(object sender, LoadErrorEventArgs e)
     {
         Debug.Log("Failed to load ad");
-        Debug.Log(e.Message);
+        //error.text = "AdFailedLoad" + e.Message;
+        StartCoroutine(btnContinueDelay());
+        //showAdsFailed?.Invoke();
     }
 
     void AdShown()
@@ -170,4 +180,18 @@ public class RewardedAds : MonoBehaviour
 
         PlayerPrefs.SetInt("Map01", count);
     }
+
+    IEnumerator btnDoubleDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        btnx2Reward.gameObject.SetActive(true);
+    }
+
+    IEnumerator btnContinueDelay()
+    {
+        yield return new WaitForSeconds(10.0f);
+        btnContinue.gameObject.SetActive(true);
+    }
+
+    
 }

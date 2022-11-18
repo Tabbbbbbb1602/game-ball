@@ -36,6 +36,7 @@ public class UI : MonoBehaviour
 
     private bool isShowSetting;
     private bool isShowGameLoad;
+    private bool isShowAdsReward;
     public void Awake()
     {
         countObsEnemy = obsEnemyCount.childCount;
@@ -54,6 +55,8 @@ public class UI : MonoBehaviour
         UIManager.Ins.OnPlayerLose.AddListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.AddListener(changeTextCoins);
         RewardedAds.doubleReward += doubleReward;
+       /* RewardedAds.showAdsCompleted += showAdsCompleted;
+        RewardedAds.showAdsFailed += showAdsFailed;*/
         inputs.Enable();
     }
 
@@ -152,8 +155,10 @@ public class UI : MonoBehaviour
         gameLoad.SetActive(false);
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("BACKLEVEL", currentLevel);
-        StartCoroutine(btnDoubleDelay());
-        StartCoroutine(btnContinueDelay());
+        /*StartCoroutine(btnDoubleDelay());
+        StartCoroutine(btnContinueDelay());*/
+       /* showAdsCompleted();
+        showAdsFailed();*/
         GameObject character = GameObject.FindGameObjectWithTag("Player");
         character.GetComponent<PlayerMove>().enabled = false;
         isShowGameLoad = true;
@@ -184,12 +189,27 @@ public class UI : MonoBehaviour
     private void OnDisable()
     {
         inputs.touch.touchpos.performed -= StartThrow;
-        RewardedAds.doubleReward -= doubleReward;
+       /* RewardedAds.doubleReward -= doubleReward;
+        RewardedAds.showAdsCompleted -= showAdsCompleted;*/
+        RewardedAds.showAdsFailed -= showAdsFailed;
         UIManager.Ins.OnPlayerVictory.RemoveListener(victoryGame);
         UIManager.Ins.OnPlayerLose.RemoveListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.RemoveListener(changeTextCoins);
         inputs.Disable();
     }
+    
+    private void showAdsCompleted()
+    {
+        StartCoroutine(btnDoubleDelay());
+        StartCoroutine(btnContinueDelay());
+    }
+
+    private void showAdsFailed()
+    {
+        StartCoroutine(btnContinueDelay());
+    }
+
+
 
     IEnumerator btnDoubleDelay()
     {
