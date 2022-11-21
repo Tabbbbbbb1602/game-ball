@@ -24,7 +24,7 @@ public class UI : MonoBehaviour
 
     private TouchInput inputs;
 
-    public Transform obsEnemyCount;
+    private GameObject obsEnemyCount;
 
     public Text coinCountingText;
 
@@ -39,12 +39,17 @@ public class UI : MonoBehaviour
     private bool isShowAdsReward;
     public void Awake()
     {
-        countObsEnemy = obsEnemyCount.childCount;
         mainMenu.SetActive(true);
         game.SetActive(false);
         gameLoad.SetActive(false);
         settings.SetActive(false);
+        obsEnemyCount = GameObject.FindGameObjectWithTag("ObsEnemy");
         inputs = new TouchInput();
+    }
+
+    private void Start()
+    {
+        countObsEnemy = obsEnemyCount.transform.childCount;
     }
 
 
@@ -180,10 +185,18 @@ public class UI : MonoBehaviour
 
     public void doubleReward()
     {
+        Debug.Log(countObsEnemy);
         Pref.Coins += countObsEnemy;
+        countObsEnemy = 0;
         if (coinCountingText)
             coinCountingText.text = "" + Pref.Coins;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void btnContinueGame()
+    {
+        Debug.Log("okkkk");
+        countObsEnemy = 0;
     }
 
     private void OnDisable()

@@ -178,9 +178,9 @@ public class PlayerMove : MonoBehaviour
 
     private void playerVictory()
     {
+        m_animator.SetBool("isVictory", true);
         winGamePosition = new Vector3(0, 90, 0);
         transform.eulerAngles = winGamePosition;
-        m_animator.SetBool("isVictory", true);
         GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");
         for(int i = 0; i < enemy.Length; i++)
         {
