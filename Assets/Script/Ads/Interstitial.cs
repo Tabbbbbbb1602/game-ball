@@ -8,7 +8,7 @@ using UnityEngine;
     {
         IInterstitialAd ad;
         string adUnitId = "Interstitial_Android";
-        string gameId = "4979623";
+        string gameId = "5031881";
 
 
     private bool isShowAds;

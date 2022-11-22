@@ -170,6 +170,7 @@ public class PlayerMove : MonoBehaviour
 
     private void playerLose()
     {
+        m_animator.SetBool("isRunning", false);
         m_animator.SetBool("isLose", true);
         winGamePosition = new Vector3(0, 0, 0);
         transform.eulerAngles = winGamePosition;
@@ -178,6 +179,7 @@ public class PlayerMove : MonoBehaviour
 
     private void playerVictory()
     {
+        m_animator.SetBool("isRunning", false);
         m_animator.SetBool("isVictory", true);
         winGamePosition = new Vector3(0, 90, 0);
         transform.eulerAngles = winGamePosition;
