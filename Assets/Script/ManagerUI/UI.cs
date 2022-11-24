@@ -30,14 +30,24 @@ public class UI : MonoBehaviour
 
     public static event Action<bool> pauseGame;
     public static event Action resumeGame;
+    public static event Action countdownTime;
 
     private int countObsEnemy;
     private int currentSceneIndex;
 
     private bool isShowSetting;
     private bool isShowGameLoad;
-    private bool isShowAdsReward;
     public void Awake()
+    {
+        initGame();
+    }
+
+    private void Start()
+    {
+        countObsEnemy = obsEnemyCount.transform.childCount;
+    }
+
+    public void initGame()
     {
         mainMenu.SetActive(true);
         game.SetActive(false);
@@ -47,12 +57,6 @@ public class UI : MonoBehaviour
         inputs = new TouchInput();
     }
 
-    private void Start()
-    {
-        countObsEnemy = obsEnemyCount.transform.childCount;
-    }
-
-
     private void OnEnable()
     {
         inputs.touch.touchpos.performed += StartThrow;
@@ -60,8 +64,7 @@ public class UI : MonoBehaviour
         UIManager.Ins.OnPlayerLose.AddListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.AddListener(changeTextCoins);
         RewardedAds.doubleReward += doubleReward;
-       /* RewardedAds.showAdsCompleted += showAdsCompleted;
-        RewardedAds.showAdsFailed += showAdsFailed;*/
+        CountdownTime.LoseGame += countdownTimeLoseGame;
         inputs.Enable();
     }
 
@@ -160,10 +163,6 @@ public class UI : MonoBehaviour
         gameLoad.SetActive(false);
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("BACKLEVEL", currentLevel);
-        /*StartCoroutine(btnDoubleDelay());
-        StartCoroutine(btnContinueDelay());*/
-       /* showAdsCompleted();
-        showAdsFailed();*/
         GameObject character = GameObject.FindGameObjectWithTag("Player");
         character.GetComponent<PlayerMove>().enabled = false;
         isShowGameLoad = true;
@@ -173,7 +172,6 @@ public class UI : MonoBehaviour
     {
         loseGameObj.SetActive(true);
         gameLoad.SetActive(false);
-        //StartCoroutine(btnLoseDelay());
     }
 
     public void changeTextCoins()
@@ -185,7 +183,6 @@ public class UI : MonoBehaviour
 
     public void doubleReward()
     {
-        Debug.Log(countObsEnemy);
         Pref.Coins += countObsEnemy;
         countObsEnemy = 0;
         if (coinCountingText)
@@ -195,16 +192,21 @@ public class UI : MonoBehaviour
 
     public void btnContinueGame()
     {
-        Debug.Log("okkkk");
         countObsEnemy = 0;
+    }
+
+    public void countdownTimeLoseGame()
+    {
+        loseGameObj.SetActive(true);
+        gameLoad.SetActive(false);
+        countdownTime?.Invoke();
     }
 
     private void OnDisable()
     {
         inputs.touch.touchpos.performed -= StartThrow;
-       /* RewardedAds.doubleReward -= doubleReward;
-        RewardedAds.showAdsCompleted -= showAdsCompleted;*/
         RewardedAds.showAdsFailed -= showAdsFailed;
+        CountdownTime.LoseGame += countdownTimeLoseGame;
         UIManager.Ins.OnPlayerVictory.RemoveListener(victoryGame);
         UIManager.Ins.OnPlayerLose.RemoveListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.RemoveListener(changeTextCoins);

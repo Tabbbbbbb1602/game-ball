@@ -25,7 +25,7 @@ public class ShopItemUIBall : MonoBehaviour
 
         if (isUnlocked)
         {
-            if(ballItemId == Pref.CurBallId)
+            if (ballItemId == Pref.CurBallId)
             {
                 if (priceText)
                     priceText.text = "Active";

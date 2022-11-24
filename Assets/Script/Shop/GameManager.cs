@@ -18,7 +18,7 @@ public class GameManager : Singleton<GameManager>
         base.Start();
 
         if (!PlayerPrefs.HasKey(PrefConst.COIN_KEY))
-            Pref.Coins = 2000;
+            Pref.Coins = 1000;
 
         ActivePlayer();
         ActiveBall();

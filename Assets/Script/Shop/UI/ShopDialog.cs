@@ -19,7 +19,7 @@ public class ShopDialog : Dialog
     {
         UpdateUI();
         UpdateUIBall();
-    }   
+    }
 
     private void UpdateUI()
     {
@@ -127,7 +127,7 @@ public class ShopDialog : Dialog
         }
     }
 
-    
+
     void BallItemEvent(BallItem item, int ballItemId)
     {
         if (item == null) return;
@@ -147,7 +147,7 @@ public class ShopDialog : Dialog
         }
         else
         {
-            if(Pref.Coins >= item.priceBall)
+            if (Pref.Coins >= item.priceBall)
             {
                 Pref.Coins -= item.priceBall;
                 Pref.SetBool(PrefConst.BALL_PEFIX + ballItemId, true);

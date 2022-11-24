@@ -15,16 +15,11 @@ public class CameraManager : MonoBehaviour
         cinemachineVirtualCamera.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnEnable()
     {
         UIManager.Ins.OnPlayerVictory.AddListener(victoryGameCamera);
         UIManager.Ins.OnPlayerLose.AddListener(loseGameCamera);
+        UI.countdownTime += countdownTimeLoseGame;
     }
 
     private void loseGameCamera()
@@ -39,4 +34,16 @@ public class CameraManager : MonoBehaviour
         cinemachineVirtualCamera.SetActive(true);
     }
 
+    public void countdownTimeLoseGame()
+    {
+        CameraMain.SetActive(false);
+        cinemachineVirtualCamera.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        UIManager.Ins.OnPlayerVictory.RemoveListener(victoryGameCamera);
+        UIManager.Ins.OnPlayerLose.RemoveListener(loseGameCamera);
+        UI.countdownTime += countdownTimeLoseGame;
+    }
 }

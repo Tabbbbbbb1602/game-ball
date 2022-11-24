@@ -93,6 +93,7 @@ public class PlayerMove : MonoBehaviour
         UIManager.Ins.OnPlayerLose.AddListener(playerLose);
         AbsShootingAndThrowBall.OnChupBanh += OnChupBanh;
         UI.pauseGame += pauseGame;
+        UI.countdownTime += countdownTimeLevel;
         inputs.Enable();
     }
 
@@ -225,6 +226,13 @@ public class PlayerMove : MonoBehaviour
         }*/
     }
 
+    public void countdownTimeLevel()
+    {
+       /* GameObject character = GameObject.FindGameObjectWithTag("Player");
+        character.GetComponent<PlayerMove>().enabled = false;
+        playerLose();*/
+    }
+
     private void OnDisable()
     {
         inputs.touch.touchpos.performed -= MovePlayer;
@@ -234,6 +242,7 @@ public class PlayerMove : MonoBehaviour
         UIManager.Ins.OnPlayerLose.RemoveListener(playerLose);
         AbsShootingAndThrowBall.OnChupBanh -= OnChupBanh;
         UI.pauseGame -= pauseGame;
+        UI.countdownTime -= countdownTimeLevel;
         inputs.Disable();
     }
 
