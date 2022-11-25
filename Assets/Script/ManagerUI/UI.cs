@@ -64,7 +64,6 @@ public class UI : MonoBehaviour
         UIManager.Ins.OnPlayerLose.AddListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.AddListener(changeTextCoins);
         RewardedAds.doubleReward += doubleReward;
-        CountdownTime.LoseGame += countdownTimeLoseGame;
         inputs.Enable();
     }
 
@@ -170,8 +169,11 @@ public class UI : MonoBehaviour
 
     public void loseGames()
     {
-        loseGameObj.SetActive(true);
         gameLoad.SetActive(false);
+        loseGameObj.SetActive(true);
+        GameObject character = GameObject.FindGameObjectWithTag("Player");
+        character.GetComponent<PlayerMove>().enabled = false;
+        isShowGameLoad = true;
     }
 
     public void changeTextCoins()
@@ -195,18 +197,10 @@ public class UI : MonoBehaviour
         countObsEnemy = 0;
     }
 
-    public void countdownTimeLoseGame()
-    {
-        loseGameObj.SetActive(true);
-        gameLoad.SetActive(false);
-        countdownTime?.Invoke();
-    }
-
     private void OnDisable()
     {
         inputs.touch.touchpos.performed -= StartThrow;
         RewardedAds.showAdsFailed -= showAdsFailed;
-        CountdownTime.LoseGame += countdownTimeLoseGame;
         UIManager.Ins.OnPlayerVictory.RemoveListener(victoryGame);
         UIManager.Ins.OnPlayerLose.RemoveListener(loseGames);
         UIManager.Ins.OnChangeTextCoins.RemoveListener(changeTextCoins);
