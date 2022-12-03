@@ -31,7 +31,7 @@ public class CountdownTime : MonoBehaviour
 
     private void Start()
     {
-        timerIsRunning = true;
+        timerIsRunning = true; 
     }
     void Update()
     {

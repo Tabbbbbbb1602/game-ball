@@ -8,7 +8,7 @@ using UnityEngine;
     {
         IInterstitialAd ad;
         string adUnitId = "Interstitial_Android";
-        string gameId = "5031881";
+        string gameId = "5031735";
 
 
     private bool isShowAds;
@@ -30,7 +30,7 @@ using UnityEngine;
         {
             InitializationOptions initializationOptions = new InitializationOptions();
             initializationOptions.SetGameId(gameId);
-            await UnityServices.InitializeAsync(initializationOptions);
+            await UnityServices.InitializeAsync();
 
             InitializationComplete();
         }

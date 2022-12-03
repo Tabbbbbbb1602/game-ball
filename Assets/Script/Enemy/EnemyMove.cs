@@ -92,13 +92,9 @@ public class EnemyMove : MonoBehaviour
             transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, rotLockAt, 5f * Time.deltaTime);
             if (Quaternion.Angle(rotLockAt, transform.rotation) <= 1f)
             {
-                Vector3 directionEnemy = target.position - PosBall.transform.position;
-                directionEnemy.x = UnityEngine.Random.Range(directionEnemy.x - 3f, directionEnemy.x + 3f);
-                directionEnemy.z = UnityEngine.Random.Range(directionEnemy.z - 3f, directionEnemy.z + 3f);
-                shootingAndThrowBall.nem(directionEnemy);
+                shootingAndThrowBall.nem(transform.forward);
                 navMeshAgent.SetDestination(transform.position);
                 isRot = false;
-                Debug.DrawRay(transform.position, directionEnemy, Color.red);
             }
         }
     }

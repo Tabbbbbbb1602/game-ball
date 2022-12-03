@@ -17,10 +17,10 @@ public class HandleEnemy : AbsShootingAndThrowBall
 
     protected override void nembanh(Vector3 direction)
     {
-        float force = 2000f;
+        float force = 40f;
         if (isHaveBall)
         {
-            RbBall.AddForce(direction.normalized * force);
+            RbBall.AddForce(direction.normalized * force, ForceMode.Impulse);
             isHaveBall = false;
         }
     }

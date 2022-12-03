@@ -14,7 +14,7 @@ namespace Unity.Example
 
         IRewardedAd ad;
         string adUnitId = "Rewarded_Android";
-        string gameId = "4979623";
+        string gameId = "5031735";
 
         private void Start()
         {

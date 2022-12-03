@@ -9,7 +9,7 @@ using UnityEngine;
     {
         IBannerAd ad;
         string adUnitId = "Banner_Android";
-        string gameId = "4979623";
+        string gameId = "5031735";
 
     private void Start()
     {

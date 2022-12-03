@@ -19,7 +19,7 @@ public class RewardedAds : MonoBehaviour
 
     IRewardedAd ad;
     string adUnitId = "Rewarded_Android";
-    string gameId = "5031881";
+    string gameId = "5031735";
 
     public static event Action doubleReward;
     public static event Action showAdsCompleted;
