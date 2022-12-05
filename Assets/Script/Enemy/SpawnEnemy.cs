@@ -6,6 +6,12 @@ public class SpawnEnemy : MonoBehaviour
 {
     public GameObject orgin;
     public GameObject parent;
+    public GameObject ps;
+    //public GameObject coliider;
+    private GameObject InstanceEnemies;
+    private bool isDead;
+    //public AudioClip audio;
+    private AudioManager audioManager;
 
     void Update ()
     {
@@ -18,10 +24,18 @@ public class SpawnEnemy : MonoBehaviour
         orgin.SetActive(true);
         GameObject InstanceEnemies = Instantiate(parent, parent.transform.position, parent.transform.rotation);
         Destroy(parent);
+        isDead = false;
     }
     public void Dead()
     {
-        orgin.SetActive(false);
-        StartCoroutine(EnemySpawner(4.0f));
+        if (!isDead)
+        {
+            isDead = true;
+            var effect = Instantiate(ps, transform.position, transform.rotation);
+            Destroy(effect, 1.0f);
+            FindObjectOfType<AudioManager>().Play("collider");
+            orgin.SetActive(false);
+            StartCoroutine(EnemySpawner(4.0f));
+        }
     }
 }

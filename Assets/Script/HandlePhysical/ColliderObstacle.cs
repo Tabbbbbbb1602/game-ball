@@ -43,7 +43,7 @@ public class ColliderObstacle : MonoBehaviour
             {
                 if (collision.transform.GetComponent<ColliderBall>().tag != tag)
                 {
-                    //FindObjectOfType<AudioManager>().Play("shoot");
+                    FindObjectOfType<AudioManager>().Play("shoot");
                 }
                 if (collision.transform.GetComponent<ColliderBall>().tag == tag)
                 {

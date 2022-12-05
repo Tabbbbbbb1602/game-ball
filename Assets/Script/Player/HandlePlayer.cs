@@ -25,6 +25,7 @@ public class HandlePlayer : AbsShootingAndThrowBall
         float force = 2000f;
         if(isHaveBall)
         {
+            FindObjectOfType<AudioManager>().Play("throw");
             RbBall.AddForce(direction.normalized * force);
             isHaveBall = false;
         }
