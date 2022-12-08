@@ -218,6 +218,20 @@ public class UI : MonoBehaviour
         StartCoroutine(btnContinueDelay());
     }
 
+    public void BacktoGame()
+    {
+        currentSceneIndex = PlayerPrefs.GetInt("LevelSaved");
+
+        if (PlayerPrefs.HasKey("LevelSaved"))
+        {
+            SceneManager.LoadScene(currentSceneIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene("Scenes/Level_1");
+        }
+    }
+
 
 
     IEnumerator btnDoubleDelay()

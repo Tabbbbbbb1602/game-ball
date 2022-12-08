@@ -6,6 +6,18 @@ public class Hammer : Strigger
 {
     public LayerMask target;
 
+    private void Awake()
+    {
+        
+    }
+    private void Update()
+    {
+        if(rigidbodyParent.velocity != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(rigidbodyParent.velocity);
+        }
+    }
+
     protected override void Vacham(Collider other)
     {
         int layer = other.gameObject.layer;
